@@ -10,4 +10,9 @@ package com.celumax.ecomclm.Data;
  */
 public class DVenta {
     
+    
+    
+    
+    
+    
 }
