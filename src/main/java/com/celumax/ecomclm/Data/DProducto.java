@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class DProducto {
 
-    private static String SELECT_PRODUCTOS = "SELECT * FROM PRODUCTOS";
+    private static String SELECT_PRODUCTOS = "SELECT IdProducto,Codigo, Nombre,Stock, Imagen, PrecioVenta FROM PRODUCTOS";
 
     public List<MProducto> Select() {
         Connection conn = null;
@@ -31,6 +31,8 @@ public class DProducto {
 
         try {
             conn = ConexionJDBC.getConnection();
+
+            System.out.println("conxion: " + conn);
             stmt = conn.prepareStatement(SELECT_PRODUCTOS);
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -46,9 +48,9 @@ public class DProducto {
                 producto.setCodigo(codigo);
                 producto.setNombre(nombre);
                 producto.setStock(stock);
-//                producto.setImagen(imagen);
-//                producto.getPrecioVenta(precioVenta);
-
+                producto.setImagen(imagen);
+                producto.setPrecioVenta(precioVenta);
+                System.out.println("roductos" + producto);
                 listaproductos.add(producto);
             }
 
