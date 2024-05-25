@@ -16,7 +16,10 @@ import java.sql.SQLException;
  */
 public class ConexionJDBC {
 
-    private static final String JDBC_URL = "jdbc:mysql://localhost/posjava?serverTimezone=UTC";
+
+    
+    private static final String JDBC_URL = "jdbc:mysql://localhost/posjava?useSSL=false&serverTimezone=UTC";
+
     private static final String JDBC_USER = "root";
     private static final String JDBC_PASS = "root";
     
