@@ -6,6 +6,8 @@ package com.celumax.ecomclm.Data;
 
 import com.celumax.ecomclm.Model.MProducto;
 import com.celumax.ecomclm.Util.ConexionJDBC;
+import com.celumax.ecomclm.Util.MySQLConexion;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -63,5 +65,51 @@ public class DProducto {
         }
 
         return listaproductos;
+    }
+       //GRAFICO2
+    public List<MProducto> lisProductosMasCarosPorAnio(int an) {
+        List<MProducto> lista = new ArrayList<>();
+    Connection cn = MySQLConexion.getConexion();
+    try {
+        String sql = "{call spPCarosxAnio(?)}"; 
+        CallableStatement t = cn.prepareCall(sql);
+        t.setInt(1, an); 
+        ResultSet rs = t.executeQuery();
+        while (rs.next()) {
+            MProducto p = new MProducto();
+            p.setNombre(rs.getString("NombreProducto")); 
+            p.setPrecioVenta(rs.getDouble("Precio"));
+            lista.add(p);
+        }
+        rs.close();
+        t.close();
+        cn.close();
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+    return lista;
+    }
+    //GRAFICO3
+     public List<MProducto> lisStockPorAnio(int an) {
+        List<MProducto> lista = new ArrayList<>();
+        Connection cn = MySQLConexion.getConexion();
+        try {
+            String sql = "{call spStockPorAnio(?)}"; 
+            CallableStatement st = cn.prepareCall(sql);
+            st.setInt(1, an); 
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                MProducto p = new MProducto();
+                p.setNombre(rs.getString("nombre")); 
+                p.setStock(rs.getInt("stock"));
+                lista.add(p);
+            }
+            rs.close();
+            st.close();
+            cn.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return lista;
     }
 }

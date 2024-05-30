@@ -2,6 +2,8 @@ package com.celumax.ecomclm.Data;
 
 import com.celumax.ecomclm.Model.MVenta;
 import com.celumax.ecomclm.Util.ConexionJDBC;
+import com.celumax.ecomclm.Util.MySQLConexion;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,4 +68,25 @@ public class DVenta {
 
         return listaVentas;
     }
+    //LISTA PARA EL GRAFICO1
+    public List<MVenta> lisMes(int an) {       
+        List<MVenta> lista = new ArrayList<>();
+    Connection cn = MySQLConexion.getConexion();
+    try {
+        String sql = "{call spVentasPorMes(?)}";
+        CallableStatement st = cn.prepareCall(sql);
+        st.setInt(1, an);
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            MVenta mVenta = new MVenta();
+            mVenta.setMes(rs.getInt(1));
+            mVenta.setTotal(rs.getDouble(2));
+            lista.add(mVenta);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return lista;
+    }
+    
 }

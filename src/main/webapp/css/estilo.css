@@ -1,0 +1,18 @@
+.rojo{
+    color: red;
+    font-style: italic;
+}
+.azul{
+    color: blue;
+    font-weight: bold;
+}
+img{
+    transition: transform 1s;
+    
+}
+img:hover{
+     transform: scale(1.5);
+}
+.bg-custom-purple{
+    background: #8540f5;
+}

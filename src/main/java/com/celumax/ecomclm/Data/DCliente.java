@@ -1,7 +1,10 @@
 package com.celumax.ecomclm.Data;
 
 import com.celumax.ecomclm.Model.MCliente;
+import com.celumax.ecomclm.Model.MCategoria;
 import com.celumax.ecomclm.Util.ConexionJDBC;
+import com.celumax.ecomclm.Util.MySQLConexion;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -65,5 +68,24 @@ public class DCliente {
 
         return listaClientes;
     }
+    public List<MCategoria> lisVentaPorCategoria() {
+    List<MCategoria> lista = new ArrayList<>();
+    Connection cn = MySQLConexion.getConexion();
+    try {
+        String sql = "{call spVentasPorCategoria(?)}"; 
+        CallableStatement st = cn.prepareCall(sql);
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            MCategoria mVenta = new MCategoria();
+            mVenta.setNombre(rs.getString("nombre")); 
+            mVenta.setTotal(rs.getDouble("total"));
+            lista.add(mVenta);
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+    return lista;
+}
 
+  
 }

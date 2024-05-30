@@ -12,6 +12,7 @@ public class MCliente extends MAuditoria {
     private String Direccion;
     private String Telefono;
     private String Correo;
+  
 
     public Integer getIdCliente() {
         return IdCliente;
@@ -60,5 +61,7 @@ public class MCliente extends MAuditoria {
     public void setCorreo(String Correo) {
         this.Correo = Correo;
     }
+
+   
     
 }
