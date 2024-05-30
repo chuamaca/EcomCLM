@@ -277,7 +277,7 @@
                                                             <%
                                                                 DProducto dProducto = new DProducto();
                                                                 for (MProducto producto : dProducto.Select()) {
-                                                                    out.println("<div class='col-xs-6 col-sm-4 col-md-3'><div class='thumbnail search-thumbnail'><img class='media-object' data-src='holder.js/100px200?theme=gray' /><div class='caption'><div class='clearfix'> <span class='pull-right label label-grey info-label'> S/. "+producto.getPrecioVenta()+"</span></div> <h4 class='search-title'><a href='#' class='blue'>"+ producto.getNombre()+"</a></h4><p> </p></div> </div></div>");
+                                                                    out.println("<div class='col-xs-6 col-sm-4 col-md-3'><div class='thumbnail search-thumbnail'><span class='search-promotion label label-success arrowed-in arrowed-in-right'>"+producto.getStock()+" UN</span><img class='media-object' data-src='holder.js/100px200?theme=gray' /><div class='caption'><div class='clearfix'> <span class='pull-right label label-grey info-label'> S/. "+producto.getPrecioVenta()+"</span></div> <h4 class='search-title'><a href='#' class='blue'>"+ producto.getNombre()+"</a></h4><p> "+producto.getCategoria()+"</p></div> </div></div>");
                                                                 }
                                                             %> 
 

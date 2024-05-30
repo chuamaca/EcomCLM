@@ -20,7 +20,8 @@ import java.util.List;
  */
 public class DProducto {
 
-    private static String SELECT_PRODUCTOS = "SELECT IdProducto,Codigo, Nombre,Stock, Imagen, PrecioVenta FROM PRODUCTOS";
+    private static String SELECT_PRODUCTOS = "SELECT p.IdProducto,p.Codigo, p.Nombre,p.Stock, c.Nombre as Categoria,p.Imagen, p.PrecioVenta FROM PRODUCTOS p inner join categorias c \n" +
+"on p.IdCategoria =c.IdCategoria";
 
     public List<MProducto> Select() {
         Connection conn = null;
@@ -40,6 +41,7 @@ public class DProducto {
                 String codigo = rs.getString("Codigo");
                 String nombre = rs.getString("Nombre");
                 Integer stock = rs.getInt("Stock");
+                String Categoria=rs.getString("Categoria");
                 String imagen = rs.getString("Imagen");
                 double precioVenta = rs.getDouble("PrecioVenta");
 
@@ -48,6 +50,7 @@ public class DProducto {
                 producto.setCodigo(codigo);
                 producto.setNombre(nombre);
                 producto.setStock(stock);
+                producto.setCategoria(Categoria);
                 producto.setImagen(imagen);
                 producto.setPrecioVenta(precioVenta);
                 System.out.println("roductos" + producto);
