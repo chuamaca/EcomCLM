@@ -12,6 +12,7 @@ public class MCategoria extends MAuditoria {
     private Integer IdCategoria;
     private String Nombre;
     private String Descripcion;
+    private double total;
 
     public Integer getIdCategoria() {
         return IdCategoria;
@@ -35,6 +36,14 @@ public class MCategoria extends MAuditoria {
 
     public void setDescripcion(String Descripcion) {
         this.Descripcion = Descripcion;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     

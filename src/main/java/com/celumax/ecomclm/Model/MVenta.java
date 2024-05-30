@@ -16,6 +16,13 @@ public class MVenta extends MAuditoria {
     private Date FechaVenta;
     private double Impuesto;
     private double Total;
+ 
+    private int mes;
+        public String Lmes(){
+     String vec[]={"","Ene","Feb","Mar","Abr","May","Jun","Jul",
+         "Ago","Set","Oct","Nov","Dic"};   
+     return vec[mes];
+    }
 
     public Integer getIdVenta() {
         return IdVenta;
@@ -64,5 +71,14 @@ public class MVenta extends MAuditoria {
     public void setTotal(double Total) {
         this.Total = Total;
     }
+
+    public int getMes() {
+        return mes;
+    }
+
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
+
 
 }
