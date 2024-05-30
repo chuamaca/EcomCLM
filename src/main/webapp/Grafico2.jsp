@@ -8,22 +8,8 @@
 <html>
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.min.js"></script>
-    <link href="css/adminlte.min.css" rel="stylesheet" type="text/css"/>
-    <style>
-        .container {
-            width: 100%;
-            margin: 15px auto;
-        }
-        body {
-            text-align: center;
-            color: green;
-        }
-        h2 {
-            text-align: center;
-            font-family: "Verdana", sans-serif;
-            font-size: 30px;
-        }
-    </style>
+    <link href="css/estilo2.css" rel="stylesheet" type="text/css"/>
+
 </head>
 <body>
     <%
@@ -95,8 +81,12 @@
                         label: "Precio",
                         data: [<%=data.toString()%>],
                         backgroundColor: [
-                            "rgba(153,205,1,0.6)", "lightblue", "lightred", "peru", "yellow", "orange", "blue", "green"
-                        ],
+                        "rgba(153,205,1,0.6)", "lightblue", "lightcoral", "peru", "yellow", "orange", "blue", "green",
+                        "rgba(75, 192, 192, 0.6)", "rgba(255, 99, 132, 0.6)", "rgba(54, 162, 235, 0.6)", 
+                        "rgba(255, 206, 86, 0.6)", "rgba(75, 192, 192, 0.6)", "rgba(153, 102, 255, 0.6)", 
+                        "rgba(255, 159, 64, 0.6)", "rgba(255, 105, 180, 0.6)", "rgba(139, 69, 19, 0.6)", 
+                        "rgba(0, 255, 127, 0.6)", "rgba(64, 224, 208, 0.6)", "rgba(220, 20, 60, 0.6)"
+                         ],
                     },
                 ],
             },

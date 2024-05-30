@@ -1,0 +1,109 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 30 may. 2024, 13:40:17
+    Author     : KID-R
+*/
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #2C3E50;
+    color: #ECF0F1;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h2 {
+    font-family: 'Verdana', sans-serif;
+    font-size: 24px;
+    color: #ECF0F1;
+    margin-top: 20px;
+}
+
+.container-fluid {
+    width: 90%;
+    margin: 20px auto;
+    background-color: #34495E;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.card {
+    background-color: #2C3E50;
+    border: none;
+    color: #ECF0F1;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    color: #ECF0F1;
+}
+
+.table th, .table td {
+    padding: 10px;
+    border: 1px solid #7F8C8D;
+}
+
+.table th {
+    background-color: #34495E;
+}
+
+.table td {
+    background-color: #2C3E50;
+}
+
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ECF0F1;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #7F8C8D;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #34495E;
+    color: #ECF0F1;
+}
+
+.btn-primary {
+    background-color: #2980B9;
+    border: none;
+    color: #ECF0F1;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #3498DB;
+}
+
+#myChart {
+    margin-top: 20px;
+}
+
+.card-header {
+    background-color: #34495E;
+    color: #ECF0F1;
+    padding: 15px;
+    border-bottom: 1px solid #7F8C8D;
+}
