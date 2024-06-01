@@ -1,7 +1,7 @@
 package DAO;
 
 import Beans.RDetalleVenta;
-import Conexion.ConexionJDBC;
+import Conexion.MySQLConexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +21,7 @@ public class DDetalleVenta {
         List<RDetalleVenta> listaDetallesVenta = new ArrayList<>();
 
         try {
-            conn = ConexionJDBC.getConnection();
+            conn = MySQLConexion.getConexion();
             stmt = conn.prepareStatement(SELECT_DETALLESVENTA);
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -56,9 +56,7 @@ public class DDetalleVenta {
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
-            ConexionJDBC.close(rs);
-            ConexionJDBC.close(stmt);
-            ConexionJDBC.close(conn);
+          
         }
 
         return listaDetallesVenta;

@@ -1,7 +1,6 @@
 package DAO;
 
 import Beans.MCategoria;
-import Conexion.ConexionJDBC;
 import Conexion.MySQLConexion;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -24,7 +23,7 @@ public class DCategoria {
         List<MCategoria> listaCategorias = new ArrayList<>();
 
         try {
-            conn = ConexionJDBC.getConnection();
+            conn = MySQLConexion.getConexion();
             stmt = conn.prepareStatement(SELECT_CATEGORIAS);
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -53,9 +52,7 @@ public class DCategoria {
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
-            ConexionJDBC.close(rs);
-            ConexionJDBC.close(stmt);
-            ConexionJDBC.close(conn);
+            
         }
 
         return listaCategorias;

@@ -5,7 +5,6 @@
 package DAO;
 
 import Beans.MProducto;
-import Conexion.ConexionJDBC;
 import Conexion.MySQLConexion;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -36,7 +35,7 @@ public class DProducto {
         List<MProducto> listaproductos = new ArrayList<>();
 
         try {
-            conn = ConexionJDBC.getConnection();
+            conn = MySQLConexion.getConexion();
 
             System.out.println("conxion: " + conn);
             stmt = conn.prepareStatement(SELECT_PRODUCTOS);
@@ -65,9 +64,7 @@ public class DProducto {
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
-            ConexionJDBC.close(rs);
-            ConexionJDBC.close(stmt);
-            ConexionJDBC.close(conn);
+            
         }
 
         return listaproductos;
@@ -128,7 +125,7 @@ public class DProducto {
         MProducto producto = null;
 
         try {
-            conn = ConexionJDBC.getConnection();
+            conn = MySQLConexion.getConexion();
 
             System.out.println("conxion: " + conn);
             stmt = conn.prepareStatement(SELECT_PRODUCTOS_BY_ID);
@@ -158,9 +155,7 @@ public class DProducto {
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
-            ConexionJDBC.close(rs);
-            ConexionJDBC.close(stmt);
-            ConexionJDBC.close(conn);
+          
         }
 
         return producto;

@@ -1,7 +1,7 @@
 package DAO;
 
 import Beans.MUsuario;
-import Conexion.ConexionJDBC;
+import Conexion.MySQLConexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +23,7 @@ public class DUsuario {
         List<MUsuario> listaUsuarios = new ArrayList<>();
 
         try {
-            conn = ConexionJDBC.getConnection();
+            conn = MySQLConexion.getConexion();
             stmt = conn.prepareStatement(SELECT_USUARIOS);
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -55,9 +55,7 @@ public class DUsuario {
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
-            ConexionJDBC.close(rs);
-            ConexionJDBC.close(stmt);
-            ConexionJDBC.close(conn);
+           
         }
 
         return listaUsuarios;
