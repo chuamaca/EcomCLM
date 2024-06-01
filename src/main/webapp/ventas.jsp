@@ -1,9 +1,3 @@
-<%-- 
-    Document   : ventas
-    Created on : 15 may. 2024, 23:11:10
-    Author     : Cesar
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : header
-    Created on : 15 may. 2024, 23:05:16
-    Author     : Cesar
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

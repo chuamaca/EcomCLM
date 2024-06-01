@@ -1,7 +1,7 @@
-package com.celumax.ecomclm.Data;
+package DAO;
 
-import com.celumax.ecomclm.Model.RDetalleVenta;
-import com.celumax.ecomclm.Util.ConexionJDBC;
+import Beans.RDetalleVenta;
+import Conexion.ConexionJDBC;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

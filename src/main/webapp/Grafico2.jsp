@@ -1,5 +1,4 @@
-<%@page import="com.celumax.ecomclm.Model.MProducto"%>
-<%@page import="com.celumax.ecomclm.Data.DProducto"%>
+<%@page import="DAO.*,Beans.*"%>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@ page import="java.util.List"%>

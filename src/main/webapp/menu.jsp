@@ -1,9 +1,3 @@
-<%-- 
-    Document   : menu
-    Created on : 15 may. 2024, 22:59:29
-    Author     : Cesar
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

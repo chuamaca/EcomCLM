@@ -1,7 +1,5 @@
-<%-- Document : ecomerce Created on : 15 may. 2024, 23:35:07 Author : Cesar --%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%> <%@page
-    import="com.celumax.ecomclm.Data.DProducto,
-    com.celumax.ecomclm.Model.MProducto"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%> 
+<%@page import="DAO.*,Beans.*"%>
     <!DOCTYPE html>
     <html lang="en">
         <head>

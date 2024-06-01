@@ -1,8 +1,8 @@
-package com.celumax.ecomclm.Data;
+package DAO;
 
-import com.celumax.ecomclm.Model.MVenta;
-import com.celumax.ecomclm.Util.ConexionJDBC;
-import com.celumax.ecomclm.Util.MySQLConexion;
+import Beans.MVenta;
+import Conexion.ConexionJDBC;
+import Conexion.MySQLConexion;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

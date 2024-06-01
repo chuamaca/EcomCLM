@@ -1,5 +1,5 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="com.celumax.ecomclm.Model.MVenta,com.celumax.ecomclm.Data.DVenta" %>
+<%@page import="DAO.*,Beans.*"%>
 
 <html>
 <head>

@@ -1,11 +1,11 @@
-package com.celumax.ecomclm.Util;
+package Conexion;
 import java.sql.*;
 public class MySQLConexion {
 	public static Connection getConexion(){ 
 		Connection con = null;
 		try {
                     Class.forName("com.mysql.cj.jdbc.Driver"); 
-		String url = "jdbc:mysql://localhost:3307/posjava"; 
+		String url = "jdbc:mysql://localhost:3306/posjava"; 
 		String usr = "root";
 		String psw = ""; 
 		con = DriverManager.getConnection(url,usr,psw); 

@@ -1,8 +1,3 @@
-<%-- 
-    Document   : index
-    Created on : 11 may. 2024, 09:34:05
-    Author     : Cesar
---%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
