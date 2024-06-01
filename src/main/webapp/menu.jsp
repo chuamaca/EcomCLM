@@ -76,7 +76,7 @@
                             </li>
 
                             <li class="">
-                                <a href="elements.html">
+                                <a href="clientes.jsp">
                                     <i class="menu-icon fa fa-caret-right"></i>
                                     Clientes
                                 </a>
