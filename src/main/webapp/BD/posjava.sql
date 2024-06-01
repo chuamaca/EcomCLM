@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:3307
--- Tiempo de generación: 30-05-2024 a las 03:37:35
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 01-06-2024 a las 06:22:31
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -58,6 +58,21 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ObtenerProductosPorRangoDePrecio` (IN `minPrecio` DECIMAL(10,2), IN `maxPrecio` DECIMAL(10,2))   BEGIN
     SELECT * FROM productos WHERE PrecioVenta BETWEEN minPrecio AND maxPrecio;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerProximoIdDisponible` ()   BEGIN
+    DECLARE maxId INT;
+
+    -- Obtener el máximo ID actualmente en uso
+    SELECT MAX(IdCliente) INTO maxId FROM clientes;
+
+    -- Si no hay registros en la tabla, comenzamos desde 1
+    IF maxId IS NULL THEN
+        SET maxId = 0;
+    END IF;
+
+    -- Devolver el próximo ID disponible
+    SELECT maxId + 1 AS ProximoId;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spPCarosxAnio` (IN `year` INT)   BEGIN
@@ -163,8 +178,7 @@ INSERT INTO `clientes` (`IdCliente`, `Nombre`, `NumeroDocumento`, `Direccion`, `
 (9, 'Elena', '67867890', 'martinez', '967890123', 'elena@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
 (10, 'Luis', '90190123', 'hernandez', '978901234', 'luis@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
 (11, 'Claudia', '45612378', 'torres', '989012345', 'claudia@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(12, 'Miguel', '78923456', 'ramos', '990123456', 'miguel@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(13, 'Sara', '12345678', 'cruz', '901234567', 'sara@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL);
+(12, 'Miguelito', '78923456', 'lejossssss', '990123456', 'miguel@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -401,7 +415,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `IdCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `IdCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `detallesventa`
