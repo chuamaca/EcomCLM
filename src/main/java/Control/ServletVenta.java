@@ -2,6 +2,7 @@ package Control;
 
 import Beans.MCliente;
 import DAO.DCliente;
+import DAO.DProducto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -12,23 +13,38 @@ import javax.servlet.http.HttpServletResponse;
 public class ServletVenta extends HttpServlet {
 
     DCliente objC = new DCliente();
+    DProducto dproducto= new DProducto();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int op=Integer.parseInt(request.getParameter("opc"));
-        if(op==1)lisCli(request, response);
-        if(op==2)agregarCliente(request, response);
-        if(op==3)actualizarCliente(request, response);
-        if(op==4)eliminarCliente(request, response);
+        int op = Integer.parseInt(request.getParameter("opc"));
+        if (op == 1) {
+            lisCli(request, response);
+        }
+        if (op == 2) {
+            agregarCliente(request, response);
+        }
+        if (op == 3) {
+            actualizarCliente(request, response);
+        }
+        if (op == 4) {
+            eliminarCliente(request, response);
+        }
+
+        if (op == 21) {
+            ProductById(request, response);
+        }
+
     }
-    
+
     protected void lisCli(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String cod=request.getParameter("cod");
-       request.setAttribute("dato", objC.lisClientes());
-       String pag="/clientes.jsp";
-       request.getRequestDispatcher(pag).forward(request, response);
+        String cod = request.getParameter("cod");
+        request.setAttribute("dato", objC.lisClientes());
+        String pag = "/clientes.jsp";
+        request.getRequestDispatcher(pag).forward(request, response);
     }
-    
+
     protected void agregarCliente(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         MCliente cliente = new MCliente();
@@ -43,8 +59,6 @@ public class ServletVenta extends HttpServlet {
         objC.agregarCliente(cliente);
         lisCli(request, response);
     }
-    
-    
 
     protected void actualizarCliente(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -64,6 +78,15 @@ public class ServletVenta extends HttpServlet {
         int idCliente = Integer.parseInt(request.getParameter("idCliente"));
         objC.eliminarCliente(idCliente);
         lisCli(request, response);
+    }
+
+    protected void ProductById(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int IdProducto = Integer.parseInt(request.getParameter("IdProducto"));
+        request.setAttribute("dato", dproducto.SelectById(IdProducto));
+        String pag = "/ecomerceproducto.jsp";
+        request.getRequestDispatcher(pag).forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
