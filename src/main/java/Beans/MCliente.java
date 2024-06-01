@@ -1,9 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.celumax.ecomclm.Model;
-
+package Beans;
 
 public class MCliente extends MAuditoria {
     private Integer IdCliente;
@@ -12,7 +7,6 @@ public class MCliente extends MAuditoria {
     private String Direccion;
     private String Telefono;
     private String Correo;
-  
 
     public Integer getIdCliente() {
         return IdCliente;
@@ -62,6 +56,6 @@ public class MCliente extends MAuditoria {
         this.Correo = Correo;
     }
 
-   
-    
+
+
 }

@@ -1,5 +1,5 @@
 
-package com.celumax.ecomclm.Util;
+package Conexion;
 
 
 public class Prueba1 {

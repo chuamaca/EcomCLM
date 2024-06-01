@@ -1,9 +1,3 @@
-<%-- 
-    Document   : footer
-    Created on : 15 may. 2024, 23:03:33
-    Author     : Cesar
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,10 +6,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-
-
-
-
         <div class="footer">
             <div class="footer-inner">
                 <div class="footer-content">

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : menu
-    Created on : 15 may. 2024, 22:59:29
-    Author     : Cesar
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -82,7 +76,7 @@
                             </li>
 
                             <li class="">
-                                <a href="elements.html">
+                                <a href="clientes.jsp">
                                     <i class="menu-icon fa fa-caret-right"></i>
                                     Clientes
                                 </a>
@@ -159,12 +153,35 @@
                     </li>
 
 
-                </ul><!-- /.nav-list -->
+               
+                <li class="">
+                    <a href="Grafico1.jsp">
+                        <i class="menu-icon fa fa-bar-chart"></i>
+                        <span class="menu-text"> Ventas totales </span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
 
-                <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-                    <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-                </div>
+                <li class="">
+                    <a href="Grafico2.jsp">
+                        <i class="menu-icon fa fa-bar-chart"></i>
+                        <span class="menu-text"> Productos mas caros </span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="Grafico3.jsp">
+                        <i class="menu-icon fa fa-bar-chart"></i>
+                        <span class="menu-text"> Stock de productos </span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul><!-- /.nav-list -->
+
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
             </div>
-
+        </div>
     </body>
 </html>

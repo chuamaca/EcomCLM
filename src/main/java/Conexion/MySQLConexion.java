@@ -1,4 +1,4 @@
-package com.celumax.ecomclm.Util;
+package Conexion;
 import java.sql.*;
 public class MySQLConexion {
 	public static Connection getConexion(){ 

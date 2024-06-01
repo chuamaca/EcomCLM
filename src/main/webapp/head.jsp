@@ -1,9 +1,3 @@
-<%-- 
-    Document   : head
-    Created on : 15 may. 2024, 23:12:06
-    Author     : Cesar
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />

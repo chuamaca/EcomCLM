@@ -1,7 +1,7 @@
-package com.celumax.ecomclm.Data;
+package DAO;
 
-import com.celumax.ecomclm.Model.MUsuario;
-import com.celumax.ecomclm.Util.ConexionJDBC;
+import Beans.MUsuario;
+import Conexion.ConexionJDBC;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
