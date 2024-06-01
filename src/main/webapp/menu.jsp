@@ -76,7 +76,7 @@
                             </li>
 
                             <li class="">
-                                <a href="clientes.jsp">
+                                <a href="ServletVenta?opc=1">
                                     <i class="menu-icon fa fa-caret-right"></i>
                                     Clientes
                                 </a>
