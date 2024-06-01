@@ -84,13 +84,7 @@
                             <b class="arrow"></b>
                         </li>
 
-                        <li class="">
-                            <a href="buttons.html">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Buttons &amp; Icons
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
+
 
                         <li class="">
                             <a href="#" class="dropdown-toggle">
@@ -126,8 +120,6 @@
                                     </a>
                                     <b class="arrow"></b>
                                 </li>
-
-                               
                             </ul>
                         </li>
                     </ul>
