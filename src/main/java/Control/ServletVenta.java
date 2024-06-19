@@ -1,19 +1,29 @@
 package Control;
 
-import Beans.MCliente;
-import DAO.DCliente;
-import DAO.DProducto;
+import DAO.*;
+import Beans.*;
+import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+@MultipartConfig
 
 public class ServletVenta extends HttpServlet {
 
     DCliente objC = new DCliente();
-    DProducto dproducto= new DProducto();
+    DProducto objP= new DProducto();
+    private static final String UPLOAD_DIRECTORY = "imagenes";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -29,6 +39,18 @@ public class ServletVenta extends HttpServlet {
         }
         if (op == 4) {
             eliminarCliente(request, response);
+        }
+        if (op == 5) {
+            lisProd(request, response);
+        }
+        if (op == 6) {
+            agregarProducto(request, response);
+        }
+        if (op == 7) {
+            actualizarProducto(request, response);
+        }
+        if (op == 8) {
+            eliminarProducto(request, response);
         }
 
         if (op == 21) {
@@ -79,11 +101,88 @@ public class ServletVenta extends HttpServlet {
         objC.eliminarCliente(idCliente);
         lisCli(request, response);
     }
+    
+     protected void lisProd(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setAttribute("dato", objP.lisProductos());
+        request.getRequestDispatcher("/productos.jsp").forward(request, response);
+    }
+
+    protected void agregarProducto(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String codigo = request.getParameter("codigo");
+        String nombre = request.getParameter("nombre");
+        int stock = Integer.parseInt(request.getParameter("stock"));
+        double precioVenta = Double.parseDouble(request.getParameter("precioVenta"));
+        int idCategoria = Integer.parseInt(request.getParameter("idCategoria"));
+        Part filePart = request.getPart("imagen"); 
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        String filePath ="/EcomCLM/imagenes/" + fileName;
+
+        try (InputStream fileContent = filePart.getInputStream()) {
+            Path path = Paths.get(filePath);
+            Files.copy(fileContent, path, StandardCopyOption.REPLACE_EXISTING);
+        }
+
+        MProducto producto = new MProducto();
+        producto.setCodigo(codigo);
+        producto.setNombre(nombre);
+        producto.setStock(stock);
+        producto.setPrecioVenta(precioVenta);
+        producto.setImagen(fileName);
+        producto.setIdCategoria(idCategoria);
+        producto.setEstado(1);
+        producto.setUsuarioCrea(1);  // Placeholder, replace with actual user
+        producto.setFechaCrea(new java.util.Date());
+
+        objP.agregarProducto(producto);
+        lisProd(request, response);
+    }
+
+    protected void actualizarProducto(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int idProducto = Integer.parseInt(request.getParameter("idProducto"));
+        String codigo = request.getParameter("codigo");
+        String nombre = request.getParameter("nombre");
+        int stock = Integer.parseInt(request.getParameter("stock"));
+        double precioVenta = Double.parseDouble(request.getParameter("precioVenta"));
+        int idCategoria = Integer.parseInt(request.getParameter("idCategoria"));
+        Part filePart = request.getPart("imagen"); 
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        String filePath = "C:\\Users\\marti\\Documents\\NetBeansProjects\\EcomCLM\\src\\main\\webapp\\imagenes\\ <%=producto.getIdProducto()%>.jpg\"" + fileName;
+
+        try (InputStream fileContent = filePart.getInputStream()) {
+            Path path = Paths.get(filePath);
+            Files.copy(fileContent, path, StandardCopyOption.REPLACE_EXISTING);
+        }
+
+        MProducto producto = new MProducto();
+        producto.setIdProducto(idProducto);
+        producto.setCodigo(codigo);
+        producto.setNombre(nombre);
+        producto.setStock(stock);
+        producto.setPrecioVenta(precioVenta);
+        producto.setImagen(fileName);
+        producto.setIdCategoria(idCategoria);
+        producto.setEstado(1);
+        producto.setUsuarioModifica(1);  // Placeholder, replace with actual user
+        producto.setFechaModifica(new java.util.Date());
+
+        objP.actualizarProducto(producto);
+        lisProd(request, response);
+    }
+
+    protected void eliminarProducto(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int idProducto = Integer.parseInt(request.getParameter("idProducto"));
+        objP.eliminarProducto(idProducto);
+        lisProd(request, response);
+    }
 
     protected void ProductById(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int IdProducto = Integer.parseInt(request.getParameter("IdProducto"));
-        request.setAttribute("dato", dproducto.SelectById(IdProducto));
+        request.setAttribute("dato", objP.SelectById(IdProducto));
         String pag = "/ecomerceproducto.jsp";
         request.getRequestDispatcher(pag).forward(request, response);
         

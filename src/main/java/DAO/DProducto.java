@@ -1,24 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Beans.MProducto;
 import Conexion.MySQLConexion;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author Cesar
- */
 public class DProducto {
 
     private static String SELECT_PRODUCTOS = "SELECT p.IdProducto,p.Codigo, p.Nombre,p.Stock, c.Nombre as Categoria,p.Imagen, p.PrecioVenta FROM PRODUCTOS p inner join categorias c \n"
@@ -27,48 +14,96 @@ public class DProducto {
     private static String SELECT_PRODUCTOS_BY_ID = "SELECT p.IdProducto,p.Codigo, p.Nombre,p.Stock, c.Nombre as Categoria,p.Imagen, p.PrecioVenta FROM PRODUCTOS p inner join categorias c \n"
             + "on p.IdCategoria =c.IdCategoria WHERE p.IdProducto?";
 
-    public List<MProducto> Select() {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        MProducto producto = null;
-        List<MProducto> listaproductos = new ArrayList<>();
-
-        try {
-            conn = MySQLConexion.getConexion();
-
-            System.out.println("conxion: " + conn);
-            stmt = conn.prepareStatement(SELECT_PRODUCTOS);
-            rs = stmt.executeQuery();
+     public List<MProducto> lisProductos() {
+        List<MProducto> lista = new ArrayList<>();
+        Connection cn = MySQLConexion.getConexion();
+        String sql = "SELECT * FROM productos";
+        try (PreparedStatement st = cn.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
-                int idProducto = rs.getInt("IdProducto");
-                String codigo = rs.getString("Codigo");
-                String nombre = rs.getString("Nombre");
-                Integer stock = rs.getInt("Stock");
-                String Categoria = rs.getString("Categoria");
-                String imagen = rs.getString("Imagen");
-                double precioVenta = rs.getDouble("PrecioVenta");
-
-                producto = new MProducto();
-                producto.setIdProducto(idProducto);
-                producto.setCodigo(codigo);
-                producto.setNombre(nombre);
-                producto.setStock(stock);
-                producto.setCategoria(Categoria);
-                producto.setImagen(imagen);
-                producto.setPrecioVenta(precioVenta);
-                System.out.println("roductos" + producto);
-                listaproductos.add(producto);
+                MProducto p = new MProducto();
+                p.setIdProducto(rs.getInt("IdProducto"));
+                p.setCodigo(rs.getString("Codigo"));
+                p.setNombre(rs.getString("Nombre"));
+                p.setStock(rs.getInt("Stock"));
+                p.setImagen(rs.getString("Imagen"));
+                p.setPrecioVenta(rs.getDouble("PrecioVenta"));
+                p.setIdCategoria(rs.getInt("IdCategoria"));
+                p.setEstado(rs.getInt("Estado"));
+                p.setFechaCrea(rs.getDate("FechaCrea"));
+                lista.add(p);
             }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        return listaproductos;
+        return lista;
     }
+
+    private int obtenerProximoIdDisponible() {
+        int proximoId = -1;
+        Connection cn = MySQLConexion.getConexion();
+        String sql = "{CALL spObtenerProximoIdProductoDisponible(?)}";
+        try (CallableStatement cs = cn.prepareCall(sql)) {
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.execute();
+            proximoId = cs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return proximoId;
+    }
+
+    public void agregarProducto(MProducto producto) {
+        Connection cn = MySQLConexion.getConexion();
+        String sql = "INSERT INTO productos (IdProducto, Codigo, Nombre, Stock, Imagen, PrecioVenta, IdCategoria, Estado, UsuarioCrea, FechaCrea) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement st = cn.prepareStatement(sql)) {
+            producto.setIdProducto(obtenerProximoIdDisponible());
+            st.setInt(1, producto.getIdProducto());
+            st.setString(2, producto.getCodigo());
+            st.setString(3, producto.getNombre());
+            st.setInt(4, producto.getStock());
+            st.setString(5, producto.getImagen());
+            st.setDouble(6, producto.getPrecioVenta());
+            st.setInt(7, producto.getIdCategoria());
+            st.setInt(8, producto.getEstado());
+            st.setInt(9, producto.getUsuarioCrea());
+            st.setDate(10, new java.sql.Date(producto.getFechaCrea().getTime()));
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizarProducto(MProducto producto) {
+        Connection cn = MySQLConexion.getConexion();
+        String sql = "UPDATE productos SET Codigo = ?, Nombre = ?, Stock = ?, Imagen = ?, PrecioVenta = ?, IdCategoria = ?, Estado = ?, UsuarioModifica = ?, FechaModifica = ? WHERE IdProducto = ?";
+        try (PreparedStatement st = cn.prepareStatement(sql)) {
+            st.setString(1, producto.getCodigo());
+            st.setString(2, producto.getNombre());
+            st.setInt(3, producto.getStock());
+            st.setString(4, producto.getImagen());
+            st.setDouble(5, producto.getPrecioVenta());
+            st.setInt(6, producto.getIdCategoria());
+            st.setInt(7, producto.getEstado());
+            st.setInt(8, producto.getUsuarioModifica());
+            st.setDate(9, new java.sql.Date(producto.getFechaModifica().getTime()));
+            st.setInt(10, producto.getIdProducto());
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void eliminarProducto(int idProducto) {
+        Connection cn = MySQLConexion.getConexion();
+        String sql = "DELETE FROM productos WHERE IdProducto = ?";
+        try (PreparedStatement st = cn.prepareStatement(sql)) {
+            st.setInt(1, idProducto);
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     //GRAFICO2
 
     public List<MProducto> lisProductosMasCarosPorAnio(int an) {
