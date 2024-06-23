@@ -275,6 +275,21 @@
                                                             Articulo Detalle
                                                         </h1>
                                                         
+                                                        <%
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        %>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
                                                     </div>
 
                                                     <div class="space-12"></div>

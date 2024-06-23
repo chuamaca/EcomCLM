@@ -84,6 +84,14 @@
                             <b class="arrow"></b>
                         </li>
 
+                        <li class="">
+                            <a href="productos.jsp">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Productos
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
 
 
                         <li class="">

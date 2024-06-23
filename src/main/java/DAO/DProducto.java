@@ -14,7 +14,6 @@ public class DProducto {
     private static String SELECT_PRODUCTOS_BY_ID = "SELECT p.IdProducto,p.Codigo, p.Nombre,p.Stock, c.Nombre as Categoria,p.Imagen, p.PrecioVenta FROM PRODUCTOS p inner join categorias c \n"
             + "on p.IdCategoria =c.IdCategoria WHERE p.IdProducto?";
 
-
     private static String INSERT_PRODUCTO = "";
 
     public List<MProducto> Select() {
@@ -26,11 +25,32 @@ public class DProducto {
 
         try {
             conn = MySQLConexion.getConexion();
-
             System.out.println("conxion: " + conn);
             stmt = conn.prepareStatement(SELECT_PRODUCTOS);
             rs = stmt.executeQuery();
 
+            while (rs.next()) {
+                MProducto p = new MProducto();
+                p.setIdProducto(rs.getInt("IdProducto"));
+                p.setCodigo(rs.getString("Codigo"));
+                p.setNombre(rs.getString("Nombre"));
+                p.setStock(rs.getInt("Stock"));
+                p.setImagen(rs.getString("Imagen"));
+                p.setPrecioVenta(rs.getDouble("PrecioVenta"));
+                listaproductos.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return listaproductos;
+    }
+
+    public List<MProducto> lisProductos() {
+        List<MProducto> lista = new ArrayList<>();
+        Connection cn = MySQLConexion.getConexion();
+        String sql = "SELECT * FROM productos";
+        try (PreparedStatement st = cn.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
                 MProducto p = new MProducto();
                 p.setIdProducto(rs.getInt("IdProducto"));
@@ -46,47 +66,10 @@ public class DProducto {
             }
         } catch (Exception e) {
             e.printStackTrace();
-
         }
         return lista;
     }
 
-     public List<MProducto> lisProductos() {
-        List<MProducto> lista = new ArrayList<>();
-        Connection cn = MySQLConexion.getConexion();
-        String sql = "SELECT * FROM productos";
-        try (PreparedStatement st = cn.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
-
-            try {
-                conn = MySQLConexion.getConexion();
-    
-                System.out.println("conxion: " + conn);
-                stmt = conn.prepareStatement(SELECT_PRODUCTOS);
-                rs = stmt.executeQuery();
-    
-                while (rs.next()) {
-                    MProducto p = new MProducto();
-                    p.setIdProducto(rs.getInt("IdProducto"));
-                    p.setCodigo(rs.getString("Codigo"));
-                    p.setNombre(rs.getString("Nombre"));
-                    p.setStock(rs.getInt("Stock"));
-                    p.setImagen(rs.getString("Imagen"));
-                    p.setPrecioVenta(rs.getDouble("PrecioVenta"));
-                    p.setIdCategoria(rs.getInt("IdCategoria"));
-                    p.setEstado(rs.getInt("Estado"));
-                    p.setFechaCrea(rs.getDate("FechaCrea"));
-                    lista.add(p);
-                }
-  
-            } catch (SQLException ex) {
-                ex.printStackTrace(System.out);
-            } finally {
-            }
- 
-            return lista;
-        }
-    }
-    
     private int obtenerProximoIdDisponible() {
         int proximoId = -1;
         Connection cn = MySQLConexion.getConexion();
@@ -152,9 +135,8 @@ public class DProducto {
             e.printStackTrace();
         }
     }
-    
-    //GRAFICO2
 
+    //GRAFICO2
     public List<MProducto> lisProductosMasCarosPorAnio(int an) {
         List<MProducto> lista = new ArrayList<>();
         Connection cn = MySQLConexion.getConexion();

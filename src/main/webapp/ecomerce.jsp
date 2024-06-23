@@ -272,12 +272,49 @@
                                                         <%
                                                             DProducto dProducto = new DProducto();
                                                             for (MProducto producto : dProducto.Select()) {
-                                                                out.println("<div class='col-xs-6 col-sm-4 col-md-3'><div class='thumbnail search-thumbnail'><span class='search-promotion label label-success arrowed-in arrowed-in-right'>" + producto.getStock() + " UN</span><img class='media-object' data-src='holder.js/100px200?theme=gray' /><div class='caption'><div class='clearfix'> <span class='pull-right label label-grey info-label'> S/. " + producto.getPrecioVenta() + "</span></div> <h4 class='search-title'><a href='opc=21?IdProducto=" + producto.getIdProducto() + "' class='blue'>" + producto.getNombre() + "</a></h4><p> " + producto.getCategoria() + "</p> <div class='ace-spinner middle' style='width: 125px; align: center; '><div class='input-group'><input type='text' id='spinner1' class='spinbox-input form-control text-center'><div class='spinbox-buttons input-group-btn btn-group-vertical'> <button type='button' class='btn spinbox-up btn-sm btn-success'> <i class='icon-only  ace-icon fa fa-chevron-up'></i> </button> <button type='button' class='btn spinbox-down btn-sm btn-danger'> <i class='icon-only  ace-icon fa fa-chevron-down'></i>  </button> </div></div></div>  <button type='button' class='btn btn-info' id='addButton'>Agregar</button> </div>  </div></div>");
+                                                                int idproducto = producto.getIdProducto();
+                                                                String stock = producto.getStock() + " UN";
+                                                                String precioVenta = "S/. " + producto.getPrecioVenta();
+                                                                String urlProducto = "opc=21?IdProducto=" + producto.getIdProducto();
+                                                                String nombreProducto = producto.getNombre();
+                                                                String categoriaProducto = producto.getCategoria();
+                                                                String imagenProducto = "imagenes/" + idproducto;
+                                                        %>
+                                                        <div class="col-xs-6 col-sm-4 col-md-3">
+                                                            <div class="thumbnail search-thumbnail">
+                                                                <span class="search-promotion label label-success arrowed-in arrowed-in-right"><%= stock%></span>
+                                                                <img class="media-object" src="<%= imagenProducto%>.jpg" height="200px" width="100px" alt="<%= nombreProducto%>" />
+
+                                                                <div class="caption">
+                                                                    <div class="clearfix">
+                                                                        <span class="pull-right label label-grey info-label"><%= precioVenta%></span>
+                                                                    </div>
+                                                                    <h4 class="search-title">
+                                                                        <a href="<%= urlProducto%>" class="blue"><%= nombreProducto%></a>
+                                                                    </h4>
+                                                                    <p><%= categoriaProducto%></p>
+                                                                    <div class="ace-spinner middle" style="width: 125px; align: center;">
+                                                                        <div class="input-group">
+                                                                            <input type="text" id="spinner1" class="spinbox-input form-control text-center">
+                                                                            <div class="spinbox-buttons input-group-btn btn-group-vertical">
+                                                                                <button type="button" class="btn spinbox-up btn-sm btn-success">
+                                                                                    <i class="icon-only ace-icon fa fa-chevron-up"></i>
+                                                                                </button>
+                                                                                <button type="button" class="btn spinbox-down btn-sm btn-danger">
+                                                                                    <i class="icon-only ace-icon fa fa-chevron-down"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <a href="#" class="btn btn-info" id="addButton">Agregar</a>
+                                                                   
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <%
                                                             }
-                                                        %> 
-
+                                                        %>
                                                     </div>
-
                                                     <div class="space-12"></div>
                                                 </div>
                                             </div>
