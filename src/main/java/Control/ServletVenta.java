@@ -9,12 +9,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 @MultipartConfig
@@ -22,7 +24,7 @@ import javax.servlet.http.Part;
 public class ServletVenta extends HttpServlet {
 
     DCliente objC = new DCliente();
-    DProducto objP= new DProducto();
+    DProducto objP = new DProducto();
     private static final String UPLOAD_DIRECTORY = "imagenes";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -55,6 +57,10 @@ public class ServletVenta extends HttpServlet {
 
         if (op == 21) {
             ProductById(request, response);
+        }
+
+        if (op == 22) {
+            AgregarCarritoTemp(request, response);
         }
 
     }
@@ -101,8 +107,8 @@ public class ServletVenta extends HttpServlet {
         objC.eliminarCliente(idCliente);
         lisCli(request, response);
     }
-    
-     protected void lisProd(HttpServletRequest request, HttpServletResponse response)
+
+    protected void lisProd(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("dato", objP.lisProductos());
         request.getRequestDispatcher("/productos.jsp").forward(request, response);
@@ -115,9 +121,9 @@ public class ServletVenta extends HttpServlet {
         int stock = Integer.parseInt(request.getParameter("stock"));
         double precioVenta = Double.parseDouble(request.getParameter("precioVenta"));
         int idCategoria = Integer.parseInt(request.getParameter("idCategoria"));
-        Part filePart = request.getPart("imagen"); 
+        Part filePart = request.getPart("imagen");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String filePath ="/EcomCLM/imagenes/" + fileName;
+        String filePath = "/EcomCLM/imagenes/" + fileName;
 
         try (InputStream fileContent = filePart.getInputStream()) {
             Path path = Paths.get(filePath);
@@ -147,7 +153,7 @@ public class ServletVenta extends HttpServlet {
         int stock = Integer.parseInt(request.getParameter("stock"));
         double precioVenta = Double.parseDouble(request.getParameter("precioVenta"));
         int idCategoria = Integer.parseInt(request.getParameter("idCategoria"));
-        Part filePart = request.getPart("imagen"); 
+        Part filePart = request.getPart("imagen");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         String filePath = "C:\\Users\\marti\\Documents\\NetBeansProjects\\EcomCLM\\src\\main\\webapp\\imagenes\\ <%=producto.getIdProducto()%>.jpg\"" + fileName;
 
@@ -185,7 +191,35 @@ public class ServletVenta extends HttpServlet {
         request.setAttribute("dato", objP.SelectById(IdProducto));
         String pag = "/ecomerceproducto.jsp";
         request.getRequestDispatcher(pag).forward(request, response);
-        
+
+    }
+
+    protected void AgregarCarritoTemp(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //Crear una Session
+        HttpSession sesion = request.getSession();
+        int IdProducto = Integer.parseInt(request.getParameter("idproducto"));
+        int cantidadCompra = Integer.parseInt(request.getParameter("cantidad"));
+
+        MProducto productoObj = objP.SelectById(IdProducto);
+        RDetalleVenta compra = new RDetalleVenta();
+        compra.setIdProducto(productoObj.getIdProducto());
+        compra.setNombre(productoObj.getNombre());
+        compra.setPrecioVenta(productoObj.getPrecioVenta());
+        compra.setCantidad(cantidadCompra);
+        compra.setImagen(productoObj.getImagen());
+        List<RDetalleVenta> lista;
+        if (sesion.getAttribute("canasta") == null) {
+            lista = new ArrayList<>();
+        } else {
+            lista = (ArrayList<RDetalleVenta>) sesion.getAttribute("canasta");
+        }
+        lista.add(compra);
+        sesion.setAttribute("canasta", lista);
+        String pag = "/ecomerce.jsp";
+        response.sendRedirect(request.getContextPath() + pag);
+
+//        request.getRequestDispatcher(pag).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

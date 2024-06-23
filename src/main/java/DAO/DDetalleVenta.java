@@ -38,7 +38,7 @@ public class DDetalleVenta {
                 detalleVenta.setIdVenta(idVenta);
                 detalleVenta.setIdProducto(idProducto);
                 detalleVenta.setCantidad(cantidad);
-                detalleVenta.setPrecio(precio);
+                detalleVenta.setPrecioVenta(precio);
                 detalleVenta.setDescuento(descuento);
 
              

@@ -4,16 +4,19 @@
  */
 package Beans;
 
-public class RDetalleVenta extends MAuditoria{
+import java.util.Date;
+
+public class RDetalleVenta extends MProducto {
     
     private Integer IdDetalleVenta;
     private Integer IdVenta;
-    private Integer IdProducto;
+//    private Integer IdProducto;
     private Integer Cantidad;
-    private Double Precio;
+//    private Double Precio;
     private Double Descuento;
 
-    public Integer getIdDetalleVenta() {
+   /*
+    MAuditoria, public Integer getIdDetalleVenta() {
         return IdDetalleVenta;
     }
 
@@ -60,5 +63,44 @@ public class RDetalleVenta extends MAuditoria{
     public void setDescuento(Double Descuento) {
         this.Descuento = Descuento;
     }
+    
+    */
+
+    public Integer getIdDetalleVenta() {
+        return IdDetalleVenta;
+    }
+
+    public void setIdDetalleVenta(Integer IdDetalleVenta) {
+        this.IdDetalleVenta = IdDetalleVenta;
+    }
+
+    public Integer getIdVenta() {
+        return IdVenta;
+    }
+
+    public void setIdVenta(Integer IdVenta) {
+        this.IdVenta = IdVenta;
+    }
+
+    public Integer getCantidad() {
+        return Cantidad;
+    }
+
+    public void setCantidad(Integer Cantidad) {
+        this.Cantidad = Cantidad;
+    }
+
+    public Double getDescuento() {
+        return Descuento;
+    }
+
+    public void setDescuento(Double Descuento) {
+        this.Descuento = Descuento;
+    }
+
+   
+
+
+    
     
 }

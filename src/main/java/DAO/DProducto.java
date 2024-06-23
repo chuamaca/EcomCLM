@@ -12,7 +12,7 @@ public class DProducto {
             + "on p.IdCategoria =c.IdCategoria";
 
     private static String SELECT_PRODUCTOS_BY_ID = "SELECT p.IdProducto,p.Codigo, p.Nombre,p.Stock, c.Nombre as Categoria,p.Imagen, p.PrecioVenta FROM PRODUCTOS p inner join categorias c \n"
-            + "on p.IdCategoria =c.IdCategoria WHERE p.IdProducto?";
+            + "on p.IdCategoria =c.IdCategoria WHERE p.IdProducto=?";
 
     private static String INSERT_PRODUCTO = "";
 
