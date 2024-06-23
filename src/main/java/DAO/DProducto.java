@@ -27,6 +27,8 @@ public class DProducto {
     private static String SELECT_PRODUCTOS_BY_ID = "SELECT p.IdProducto,p.Codigo, p.Nombre,p.Stock, c.Nombre as Categoria,p.Imagen, p.PrecioVenta FROM PRODUCTOS p inner join categorias c \n"
             + "on p.IdCategoria =c.IdCategoria WHERE p.IdProducto?";
 
+    private static String INSERT_PRODUCTO = "";
+
     public List<MProducto> Select() {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -64,7 +66,7 @@ public class DProducto {
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
-            
+
         }
 
         return listaproductos;
@@ -149,13 +151,41 @@ public class DProducto {
                 producto.setImagen(imagen);
                 producto.setPrecioVenta(precioVenta);
                 System.out.println("roductos" + producto);
-                
+
             }
 
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
-          
+
+        }
+
+        return producto;
+    }
+
+    public MProducto InsertPorducto(MProducto producto) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = MySQLConexion.getConexion();
+
+            System.out.println("conxion: " + conn);
+            stmt = conn.prepareCall(INSERT_PRODUCTO);
+            stmt.setInt(1, producto.getIdCategoria());
+            stmt.setString(2, producto.getCodigo());
+            stmt.setString(3, producto.getNombre());
+            stmt.setInt(4, producto.getStock());
+            stmt.setDouble(5, producto.getPrecioCompra());
+            stmt.setDouble(6, producto.getPrecioVenta());
+
+            rs = stmt.executeQuery();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+
         }
 
         return producto;
