@@ -8,10 +8,7 @@
         <title>Search Results - Ace Admin</title>
 
         <meta name="description" content="" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-            />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 
         <!-- bootstrap & fontawesome -->
         <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -25,38 +22,19 @@
         <link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
 
         <!-- ace styles -->
-        <link
-            rel="stylesheet"
-            href="assets/css/ace.min.css"
-            class="ace-main-stylesheet"
-            id="main-ace-style"
-            />
+        <link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style"/>
 
-        <!--[if lte IE 9]>
-          <link
-            rel="stylesheet"
-            href="assets/css/ace-part2.min.css"
-            class="ace-main-stylesheet"
-          />
-        <![endif]-->
+        <style>
+            .spinbox-buttons .btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        </style>
         <link rel="stylesheet" href="assets/css/ace-skins.min.css" />
         <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
-
-        <!--[if lte IE 9]>
-          <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
-        <![endif]-->
-
-        <!-- inline styles related to this page -->
-
-        <!-- ace settings handler -->
         <script src="assets/js/ace-extra.min.js"></script>
 
-        <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
-
-        <!--[if lte IE 8]>
-          <script src="assets/js/html5shiv.min.js"></script>
-          <script src="assets/js/respond.min.js"></script>
-        <![endif]-->
     </head>
 
     <body class="no-skin">
@@ -83,19 +61,17 @@
                                     <div class="row search-page" id="search-page-1">
                                         <div class="col-xs-12">
                                             <div class="row">
-                                                <div class="col-xs-12 col-sm-4">
-                                                    <div class="search-area well well-sm">
-                                                        <div class="search-filter-header bg-primary">
-                                                            <h5 class="smaller no-margin-bottom">
-                                                                <i
-                                                                    class="ace-icon fa fa-sliders light-green bigger-130"
-                                                                    ></i
-                                                                >&nbsp; Carrito De Compras
-                                                            </h5>
-                                                        </div>
-                                                        <div class="space-10"></div>
-                                                        <div class="col-sm-8 infobox-container">
-
+                                                <div class="col-xs-12 col-sm-3">
+                                                    <table class="table table-striped table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="center">#</th>
+                                                                <th>Producto</th>
+                                                                <th class="hidden-xs">Cantidad</th>
+                                                                <th>Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
                                                             <%
                                                                 int cantidad = 0;
                                                                 HttpSession ses = request.getSession();
@@ -106,154 +82,35 @@
                                                                 List<RDetalleVenta> listaCarritoAgregado = (List<RDetalleVenta>) ses.getAttribute("canasta");
                                                             %> 
 
+                                                            <% double sm = 0;
+                                                                int inicial = 0;
+                                                                int contador = 0;
+                                                                if (cantidad > 0) {
 
+                                                                    for (RDetalleVenta obj : listaCarritoAgregado) {
+                                                                        contador++;
+                                                            %>
+                                                            <tr>
+                                                                <td class="center"><%=contador%></td>
+                                                                <td>
+                                                                    <a href="#"><%=obj.getNombre()%></a>
+                                                                </td>
+                                                                <td class="hidden-xs">
+                                                                    <%=obj.getCantidad() + " UN"%>
+                                                                </td>
 
-                                                            <div class="widget-body">
-                                                                <div class="widget-main no-padding">
-                                                                    <table class="table table-bordered table-striped" style="background-color: red">
-                                                                        <thead class="thin-border-bottom">
-                                                                            <tr>
-                                                                                <th style="color: black;">
-                                                                                    <i class="ace-icon fa fa-caret-right blue"></i>name
-                                                                                </th>
-
-                                                                                <th>
-                                                                                    <i class="ace-icon fa fa-caret-right blue"></i>price
-                                                                                </th>
-
-                                                                                <th class="hidden-480">
-                                                                                    <i class="ace-icon fa fa-caret-right blue"></i>status
-                                                                                </th>
-                                                                            </tr>
-                                                                        </thead>
-
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td>domain.com</td>
-
-                                                                                <td>
-                                                                                    <b class="blue">$12.00</b>
-                                                                                </td>
-
-                                                                                <td class="hidden-480">
-                                                                                    <span class="label label-warning arrowed arrowed-right">SOLD</span>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div><!-- /.widget-main -->
-                                                            </div>
-
-                                                            <div class="widget-body">
-                                                                <div class="widget-main padding-4">
-                                                                    <div class="tab-content padding-12">
-                                                                        <div id="task-tab" class="tab-pane active">
-                                                                            <h4 class="smaller lighter green">
-                                                                                <i class="ace-icon fa fa-shopping-cart bigger-160"></i>
-                                                                                Carrito de Compras
-                                                                            </h4>
-
-
-                                                                            <ul id="tasks" class="item-list ui-sortable">
-                                                                                <%                                                                                    if (cantidad > 0) {
-                                                                                        for (RDetalleVenta obj : listaCarritoAgregado) {
-                                                                                %>
-                                                                                <li class="item-default clearfix ui-sortable-handle">
-                                                                                    <label class="inline">
-                                                                                        <span class="lbl"> <%=obj.getNombre()%></span>
-                                                                                    </label>
-
-                                                                                    <div class="pull-right pos-rel dropdown-hover">
-                                                                                        <button class="btn btn-minier bigger btn-primary">
-                                                                                            <i class="ace-icon fa fa-cog icon-only bigger-120"></i>
-                                                                                        </button>
-
-                                                                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-caret dropdown-close dropdown-menu-right">
-                                                                                            <li>
-                                                                                                <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Mark&nbsp;as&nbsp;done">
-                                                                                                    <span class="green">
-                                                                                                        <i class="ace-icon fa fa-check bigger-110"></i>
-                                                                                                    </span>
-                                                                                                </a>
-                                                                                            </li>
-
-                                                                                            <li>
-                                                                                                <a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
-                                                                                                    <span class="red">
-                                                                                                        <i class="ace-icon fa fa-trash-o bigger-110"></i>
-                                                                                                    </span>
-                                                                                                </a>
-                                                                                            </li>
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                </li>
-                                                                                <%}
-                                                                                    }
-                                                                                %>
-
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </div><!-- /.widget-main -->
-                                                            </div>
-
-                                                            <div class="infobox infobox-pink">
-
-
-                                                                <div class="infobox-icon">
-                                                                    <i class="ace-icon fa fa-shopping-cart"></i>
-                                                                </div>
-
-                                                                <div class="infobox-data">
-                                                                    <span class="infobox-data-number">8</span>
-                                                                    <div class="infobox-content">new orders</div>
-                                                                </div>
-                                                                <div class="stat stat-important">4%</div>
-
-                                                            </div>
-                                                            <div class="space-6"></div>
-
-
-                                                        </div>
-                                                        <div class="space-10"></div>
-
-                                                        <form>
-                                                            <div class="row">
-                                                                <div class="col-xs-12 col-sm-11 col-md-10">
-                                                                    <div class="input-group">
-                                                                        <input
-                                                                            type="text"
-                                                                            class="form-control"
-                                                                            name="keywords"
-                                                                            placeholder="Look within results"
-                                                                            />
-                                                                        <div class="input-group-btn">
-                                                                            <button
-                                                                                type="button"
-                                                                                class="btn btn-default no-border btn-sm"
-                                                                                >
-                                                                                <i
-                                                                                    class="ace-icon fa fa-search icon-on-right bigger-110"
-                                                                                    ></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-
-                                                        <div class="hr hr-dotted"></div>
-                                                    </div>
+                                                                <td><%=obj.getPrecioVenta()%></td>
+                                                            </tr>
+                                                            <%
+                                                                        sm += obj.getPrecioVenta();
+                                                                    }
+                                                                }%>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
 
-                                                <div class="col-xs-12 col-sm-8">
+                                                <div class="col-xs-12 col-sm-9">
                                                     <div class="row">
-
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <!--                                                        <form method="post" name="fr">
-                                                                                                                    <input type="hidden" name="opc" value="22"/>-->
                                                         <%
                                                             DProducto dProducto = new DProducto();
                                                             for (MProducto producto : dProducto.Select()) {
@@ -278,32 +135,30 @@
                                                                         <a href="<%= urlProducto%>" class="blue"><%= nombreProducto%></a>
                                                                     </h4>
                                                                     <p><%= categoriaProducto%></p>
-                                                                    <div class="ace-spinner middle" style="width: 125px; align: center;">
+
+                                                                    <div class="ace-spinner middle touch-spinner" style="width: 125px;">
                                                                         <div class="input-group">
-                                                                            <input type="text" id="cantidad" name="cantidad" class="spinbox-input form-control text-center">
-                                                                            <div class="spinbox-buttons input-group-btn btn-group-vertical">
-                                                                                <button type="button" class="btn spinbox-up btn-sm btn-success">
-                                                                                    <i class="icon-only ace-icon fa fa-chevron-up"></i>
-                                                                                </button>
+                                                                            <div class="spinbox-buttons input-group-btn">
                                                                                 <button type="button" class="btn spinbox-down btn-sm btn-danger">
-                                                                                    <i class="icon-only ace-icon fa fa-chevron-down"></i>
+                                                                                    <i class="icon-only ace-icon ace-icon fa fa-minus bigger-110"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                            <input type="text" id="spinner3-<%=idproducto%>" name="cantidad" class="spinbox-input form-control text-center" value="0">
+                                                                            <div class="spinbox-buttons input-group-btn">
+                                                                                <button type="button" class="btn spinbox-up btn-sm btn-success">
+                                                                                    <i class="icon-only ace-icon ace-icon fa fa-plus bigger-110"></i>
                                                                                 </button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <input type="hidden" name="idproducto" value="<%=idproducto%>"/>
-
-                                                                    <a href="ServletVenta?opc=22&idproducto=<%=idproducto%>&cantidad=2" class="btn btn-info">Agregar</a> 
-                                                                    <!--                                                                        <a href="#" onclick="valida()" class="btn btn-info">Agregar</a> -->
-
+                                                                    <a href="#" onclick="addToCart(<%=idproducto%>)" class="btn btn-info">Agregar</a> 
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <%
                                                             }
                                                         %>
-
-                                                        <!--                                                        </form>-->
                                                     </div>
                                                     <div class="space-12"></div>
                                                 </div>
@@ -360,26 +215,47 @@
                 <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
             </a>
         </div>
-        <!-- /.main-container -->
 
-        <!-- basic scripts -->
-
-        <!--[if !IE]> -->
         <script src="assets/js/jquery-2.1.4.min.js"></script>
 
-        <!-- <![endif]-->
+        <script>
+                             document.addEventListener("DOMContentLoaded", function () {
+                                 var spinners = document.querySelectorAll('.ace-spinner');
 
-        <!--[if IE]>
-          <script src="assets/js/jquery-1.11.3.min.js"></script>
-        <![endif]-->
-        <script type="text/javascript">
-                if ("ontouchstart" in document.documentElement)
-                    document.write(
-                            "<script src='assets/js/jquery.mobile.custom.min.js'>" +
-                            "<" +
-                            "/script>"
-                            );
+                                 spinners.forEach(function (spinner) {
+                                     var spinnerInput = spinner.querySelector('.spinbox-input');
+                                     var incrementButton = spinner.querySelector('.spinbox-up');
+                                     var decrementButton = spinner.querySelector('.spinbox-down');
+
+                                     incrementButton.addEventListener('click', function () {
+                                         var currentValue = parseFloat(spinnerInput.value) || 0;
+                                         spinnerInput.value = (currentValue + 1);
+                                     });
+
+                                     decrementButton.addEventListener('click', function () {
+                                         var currentValue = parseFloat(spinnerInput.value) || 0;
+                                         spinnerInput.value = (currentValue - 1);
+                                     });
+
+                                     spinnerInput.addEventListener('input', function () {
+                                         var value = parseFloat(this.value);
+                                         if (!isNaN(value)) {
+                                             this.value = value;
+                                         }
+                                     });
+
+                                     spinnerInput.value = parseFloat(spinnerInput.value);
+                                 });
+                             });
+
+                             function addToCart(idproducto) {
+                                 var spinnerInput = document.getElementById('spinner3-' + idproducto);
+                                 var cantidad = spinnerInput.value;
+                                 var url = 'ServletVenta?opc=22&idproducto=' + idproducto + '&cantidad=' + cantidad;
+                                 window.location.href = url;
+                             }
         </script>
+
 
         <script>
             function valida() {
