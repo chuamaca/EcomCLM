@@ -63,6 +63,10 @@ public class ServletVenta extends HttpServlet {
             AgregarCarritoTemp(request, response);
         }
 
+        if (op == 23) {
+            ConfirmarCompra(request, response);
+        }
+
     }
 
     protected void lisCli(HttpServletRequest request, HttpServletResponse response)
@@ -220,6 +224,25 @@ public class ServletVenta extends HttpServlet {
         response.sendRedirect(request.getContextPath() + pag);
 
 //        request.getRequestDispatcher(pag).forward(request, response);
+    }
+
+    protected void ConfirmarCompra(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession sesion = request.getSession();
+        String usuario = request.getParameter("usuario");
+        String documento = request.getParameter("tarjeta");
+
+        List<RDetalleVenta> lista;
+        if (sesion.getAttribute("canasta") == null) {
+            lista = new ArrayList<>();
+        } else {
+            lista = (ArrayList<RDetalleVenta>) sesion.getAttribute("canasta");
+
+            for (RDetalleVenta rDetalleVenta : lista) {
+                
+            }
+
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

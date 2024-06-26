@@ -107,6 +107,39 @@
                                                                 }%>
                                                         </tbody>
                                                     </table>
+
+                                                    <div id="purchase-info" class="widget-box">
+                                                        <div class="widget-header">
+                                                            <h4 class="widget-title">Informacion del Usuario</h4>
+                                                            <div class="widget-toolbar">
+                                                                <a href="#" data-action="collapse">
+                                                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                                                </a>
+                                                                <a href="#" data-action="close">
+                                                                    <i class="ace-icon fa fa-times"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+
+                                                        <form action="ServletVenta" method="post">
+                                                            <input type="hidden" name="opc" value="23"/>
+                                                            <div class="widget-body">
+                                                                <div class="widget-main">
+                                                                    <div class="form-group">
+                                                                        <label for="form-field-12">usuario</label>
+                                                                        <input class="input-sm" type="text" id="usuario" name="usuario" placeholder="">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="form-field-12">Tarjeta</label>
+                                                                        <input class="input-sm" type="text" id="tarjeta" name="tarjeta" placeholder="">
+                                                                    </div>
+                                                                    <i class="ace-icon fa fa-print">
+                                                                        <input type="submit" class="btn btn-info" value="Comprar">
+                                                                    </i>                                                   
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
 
                                                 <div class="col-xs-12 col-sm-9">
@@ -219,41 +252,50 @@
         <script src="assets/js/jquery-2.1.4.min.js"></script>
 
         <script>
-                             document.addEventListener("DOMContentLoaded", function () {
-                                 var spinners = document.querySelectorAll('.ace-spinner');
+                                                                        document.addEventListener("DOMContentLoaded", function () {
+                                                                            var spinners = document.querySelectorAll('.ace-spinner');
 
-                                 spinners.forEach(function (spinner) {
-                                     var spinnerInput = spinner.querySelector('.spinbox-input');
-                                     var incrementButton = spinner.querySelector('.spinbox-up');
-                                     var decrementButton = spinner.querySelector('.spinbox-down');
+                                                                            spinners.forEach(function (spinner) {
+                                                                                var spinnerInput = spinner.querySelector('.spinbox-input');
+                                                                                var incrementButton = spinner.querySelector('.spinbox-up');
+                                                                                var decrementButton = spinner.querySelector('.spinbox-down');
 
-                                     incrementButton.addEventListener('click', function () {
-                                         var currentValue = parseFloat(spinnerInput.value) || 0;
-                                         spinnerInput.value = (currentValue + 1);
-                                     });
+                                                                                incrementButton.addEventListener('click', function () {
+                                                                                    var currentValue = parseFloat(spinnerInput.value) || 0;
+                                                                                    spinnerInput.value = (currentValue + 1);
+                                                                                });
 
-                                     decrementButton.addEventListener('click', function () {
-                                         var currentValue = parseFloat(spinnerInput.value) || 0;
-                                         spinnerInput.value = (currentValue - 1);
-                                     });
+                                                                                decrementButton.addEventListener('click', function () {
+                                                                                    var currentValue = parseFloat(spinnerInput.value) || 0;
+                                                                                    spinnerInput.value = (currentValue - 1);
+                                                                                });
 
-                                     spinnerInput.addEventListener('input', function () {
-                                         var value = parseFloat(this.value);
-                                         if (!isNaN(value)) {
-                                             this.value = value;
-                                         }
-                                     });
+                                                                                spinnerInput.addEventListener('input', function () {
+                                                                                    var value = parseFloat(this.value);
+                                                                                    if (!isNaN(value)) {
+                                                                                        this.value = value;
+                                                                                    }
+                                                                                });
 
-                                     spinnerInput.value = parseFloat(spinnerInput.value);
-                                 });
-                             });
+                                                                                spinnerInput.value = parseFloat(spinnerInput.value);
+                                                                            });
+                                                                        });
 
-                             function addToCart(idproducto) {
-                                 var spinnerInput = document.getElementById('spinner3-' + idproducto);
-                                 var cantidad = spinnerInput.value;
-                                 var url = 'ServletVenta?opc=22&idproducto=' + idproducto + '&cantidad=' + cantidad;
-                                 window.location.href = url;
-                             }
+                                                                        function addToCart(idproducto) {
+                                                                            var spinnerInput = document.getElementById('spinner3-' + idproducto);
+                                                                            var cantidad = spinnerInput.value;
+                                                                            var url = 'ServletVenta?opc=22&idproducto=' + idproducto + '&cantidad=' + cantidad;
+                                                                            window.location.href = url;
+                                                                        }
+
+//                                                                        function showDiv() {
+//                                                                            var div = document.getElementById('purchase-info');
+//                                                                            div.classList.toggle('hidden');
+//                                                                        }
+        </script>
+
+        <script>
+
         </script>
 
 
