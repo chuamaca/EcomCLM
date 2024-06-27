@@ -14,6 +14,10 @@ public class RDetalleVenta extends MProducto {
     private Integer Cantidad;
 //    private Double Precio;
     private Double Descuento;
+    
+    public double total(){
+       return super.getPrecioVenta()*Cantidad;
+   }
 
    /*
     MAuditoria, public Integer getIdDetalleVenta() {

@@ -2,6 +2,7 @@ package DAO;
 
 import Beans.RDetalleVenta;
 import Conexion.MySQLConexion;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,7 +34,7 @@ public class DDetalleVenta {
                 double descuento = rs.getDouble("Descuento");
 
                 detalleVenta = new RDetalleVenta();
-                
+
                 detalleVenta.setIdDetalleVenta(idDetalleVenta);
                 detalleVenta.setIdVenta(idVenta);
                 detalleVenta.setIdProducto(idProducto);
@@ -41,7 +42,6 @@ public class DDetalleVenta {
                 detalleVenta.setPrecioVenta(precio);
                 detalleVenta.setDescuento(descuento);
 
-             
                 detalleVenta.setEstado(rs.getInt("Estado"));
                 detalleVenta.setUsuarioCrea(rs.getInt("UsuarioCrea"));
                 detalleVenta.setFechaCrea(rs.getDate("FechaCrea"));
@@ -56,9 +56,42 @@ public class DDetalleVenta {
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
-          
+
         }
 
         return listaDetallesVenta;
+    }
+
+    public int GrabarVentaDetalle(List<RDetalleVenta> lista, int idcliente, double total) {
+        int idVenta = 0;
+        double smt = 0;
+        for (RDetalleVenta x : lista) {
+            smt = smt + x.total();
+        }
+        Connection cn = MySQLConexion.getConexion();
+        try {
+            CallableStatement st = cn.prepareCall("{call SP_FACTURA_VENTA(?,?)}");
+
+            st.setInt(1, idcliente);
+            st.setDouble(2, total);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+
+            idVenta = rs.getInt(1);
+            CallableStatement st2 = cn.prepareCall("{call SP_FACTURA_VENTA_DETALLE(?,?,?,?)}");
+            for (RDetalleVenta compra : lista) {
+
+                st2.setInt(1, idVenta);
+                st2.setInt(2, compra.getIdProducto());
+                st2.setInt(3, compra.getCantidad());
+                st2.setDouble(4, compra.getPrecioVenta());
+                st2.executeUpdate();
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return idVenta;
     }
 }

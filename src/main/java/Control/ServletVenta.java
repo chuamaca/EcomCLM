@@ -25,6 +25,7 @@ public class ServletVenta extends HttpServlet {
 
     DCliente objC = new DCliente();
     DProducto objP = new DProducto();
+    DDetalleVenta objDetalleVenta = new DDetalleVenta();
     private static final String UPLOAD_DIRECTORY = "imagenes";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -232,15 +233,25 @@ public class ServletVenta extends HttpServlet {
         String usuario = request.getParameter("usuario");
         String documento = request.getParameter("tarjeta");
 
+        //Consultamos Uusuario
+        int idusuario = 1;
+        MCliente cliente= new MCliente();
+
         List<RDetalleVenta> lista;
         if (sesion.getAttribute("canasta") == null) {
             lista = new ArrayList<>();
         } else {
             lista = (ArrayList<RDetalleVenta>) sesion.getAttribute("canasta");
-
-            for (RDetalleVenta rDetalleVenta : lista) {
-                
-            }
+            double total = (double) sesion.getAttribute("total");
+            
+            int NumeroVenta = objDetalleVenta.GrabarVentaDetalle(lista, idusuario, total);
+            
+            String cad = "Factura Nro  " + NumeroVenta;
+            cad += "\n cliente " + cliente.getNombre() + ", " + cliente.getNumeroDocumento();
+            cad += "\n Total compra " + total;
+            sesion.setAttribute("canasta", null);
+            sesion.setAttribute("cliente", null);
+            response.sendRedirect("generaQr?texto=" + cad);
 
         }
     }

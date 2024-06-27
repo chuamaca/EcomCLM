@@ -104,6 +104,7 @@
                                                             <%
                                                                         sm += obj.getPrecioVenta();
                                                                     }
+                                                                    ses.setAttribute("total", sm);
                                                                 }%>
                                                         </tbody>
                                                     </table>
@@ -134,11 +135,13 @@
                                                                         <input class="input-sm" type="text" id="tarjeta" name="tarjeta" placeholder="">
                                                                     </div>
                                                                     <i class="ace-icon fa fa-print">
-                                                                        <input type="submit" class="btn btn-info" value="Comprar">
+                                                                        <input type="submit" class="btn btn-info" target="zona" value="Comprar">
                                                                     </i>                                                   
                                                                 </div>
                                                             </div>
                                                         </form>
+                                                        
+                                                          <iframe name="zona" height="400" width="400">  </iframe>
                                                     </div>
                                                 </div>
 
