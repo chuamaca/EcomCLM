@@ -122,26 +122,30 @@
                                                             </div>
                                                         </div>
 
-                                                        <form action="ServletVenta" method="post">
-                                                            <input type="hidden" name="opc" value="23"/>
-                                                            <div class="widget-body">
-                                                                <div class="widget-main">
-                                                                    <div class="form-group">
-                                                                        <label for="form-field-12">usuario</label>
-                                                                        <input class="input-sm" type="text" id="usuario" name="usuario" placeholder="">
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <label for="form-field-12">Tarjeta</label>
-                                                                        <input class="input-sm" type="text" id="tarjeta" name="tarjeta" placeholder="">
-                                                                    </div>
-                                                                    <i class="ace-icon fa fa-print">
-                                                                        <input type="submit" class="btn btn-info" target="zona" value="Comprar">
-                                                                    </i>                                                   
+                                                        <!-- <form action="ServletVenta" method="post">-->
+                                                        <!-- <input type="hidden" name="opc" value="23"/>-->
+                                                        <div class="widget-body">
+                                                            <div class="widget-main">
+                                                                <div class="form-group">
+                                                                    <label for="form-field-12">usuario</label>
+                                                                    <input class="input-sm" type="text" id="usuario" name="usuario" placeholder="">
                                                                 </div>
+                                                                <div class="form-group">
+                                                                    <label for="form-field-12">Tarjeta</label>
+                                                                    <input class="input-sm" type="text" id="tarjeta" name="tarjeta" placeholder="">
+                                                                </div>
+
+                                                                <a href="ServletVenta?opc=23" class="btn btn-info" target="zona">
+                                                                    <i class="ace-icon fa fa-print">Comprar
+                                                                    </i>   
+                                                                </a>
+                                                                <!--<input type="submit" class="btn btn-info" target="zona" value="Comprar">-->
+
                                                             </div>
-                                                        </form>
-                                                        
-                                                          <iframe name="zona" height="400" width="400">  </iframe>
+                                                        </div>
+                                                        <!--                                                        </form>-->
+
+                                                        <iframe name="zona" height="400" width="400"></iframe>
                                                     </div>
                                                 </div>
 
