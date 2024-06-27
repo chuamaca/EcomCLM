@@ -69,27 +69,29 @@ public class DProducto {
         }
         return lista;
     }
-
-    private int obtenerProximoIdDisponible() {
+    
+    protected int obtenerProximoIdDisponible() {
         int proximoId = -1;
-        Connection cn = MySQLConexion.getConexion();
-        String sql = "{CALL spObtenerProximoIdProductoDisponible(?)}";
-        try (CallableStatement cs = cn.prepareCall(sql)) {
-            cs.registerOutParameter(1, Types.INTEGER);
-            cs.execute();
-            proximoId = cs.getInt(1);
-        } catch (Exception e) {
+        String sql = "{CALL obtenerProximoIdProducto()}";
+        try (Connection conn = MySQLConexion.getConexion();
+             CallableStatement stmt = conn.prepareCall(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                proximoId = rs.getInt("ProximoId");
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return proximoId;
     }
 
     public void agregarProducto(MProducto producto) {
+        int idProducto = obtenerProximoIdDisponible();
         Connection cn = MySQLConexion.getConexion();
         String sql = "INSERT INTO productos (IdProducto, Codigo, Nombre, Stock, Imagen, PrecioVenta, IdCategoria, Estado, UsuarioCrea, FechaCrea) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement st = cn.prepareStatement(sql)) {
             producto.setIdProducto(obtenerProximoIdDisponible());
-            st.setInt(1, producto.getIdProducto());
+            st.setInt(1, idProducto);
             st.setString(2, producto.getCodigo());
             st.setString(3, producto.getNombre());
             st.setInt(4, producto.getStock());

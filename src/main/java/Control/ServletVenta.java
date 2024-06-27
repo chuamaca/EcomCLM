@@ -128,19 +128,18 @@ public class ServletVenta extends HttpServlet {
         int idCategoria = Integer.parseInt(request.getParameter("idCategoria"));
         Part filePart = request.getPart("imagen");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String filePath = "/EcomCLM/imagenes/" + fileName;
-
-        try (InputStream fileContent = filePart.getInputStream()) {
-            Path path = Paths.get(filePath);
-            Files.copy(fileContent, path, StandardCopyOption.REPLACE_EXISTING);
-        }
+        String filePath = getServletContext().getRealPath("/imagenes/") + fileName;
+try (InputStream fileContent = filePart.getInputStream()) {
+    Path path = Paths.get(filePath);
+    Files.copy(fileContent, path, StandardCopyOption.REPLACE_EXISTING);
+}
 
         MProducto producto = new MProducto();
         producto.setCodigo(codigo);
         producto.setNombre(nombre);
         producto.setStock(stock);
         producto.setPrecioVenta(precioVenta);
-        producto.setImagen(fileName);
+        producto.setImagen(fileName); // Guardar la ruta de la imagen en la base de datos
         producto.setIdCategoria(idCategoria);
         producto.setEstado(1);
         producto.setUsuarioCrea(1);  // Placeholder, replace with actual user
@@ -160,12 +159,11 @@ public class ServletVenta extends HttpServlet {
         int idCategoria = Integer.parseInt(request.getParameter("idCategoria"));
         Part filePart = request.getPart("imagen");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String filePath = "C:\\Users\\marti\\Documents\\NetBeansProjects\\EcomCLM\\src\\main\\webapp\\imagenes\\ <%=producto.getIdProducto()%>.jpg\"" + fileName;
-
-        try (InputStream fileContent = filePart.getInputStream()) {
-            Path path = Paths.get(filePath);
-            Files.copy(fileContent, path, StandardCopyOption.REPLACE_EXISTING);
-        }
+        String filePath = getServletContext().getRealPath("/imagenes/") + fileName;
+try (InputStream fileContent = filePart.getInputStream()) {
+    Path path = Paths.get(filePath);
+    Files.copy(fileContent, path, StandardCopyOption.REPLACE_EXISTING);
+}
 
         MProducto producto = new MProducto();
         producto.setIdProducto(idProducto);
@@ -173,7 +171,7 @@ public class ServletVenta extends HttpServlet {
         producto.setNombre(nombre);
         producto.setStock(stock);
         producto.setPrecioVenta(precioVenta);
-        producto.setImagen(fileName);
+        producto.setImagen(fileName); // Actualizar la ruta de la imagen en la base de datos
         producto.setIdCategoria(idCategoria);
         producto.setEstado(1);
         producto.setUsuarioModifica(1);  // Placeholder, replace with actual user
@@ -235,7 +233,7 @@ public class ServletVenta extends HttpServlet {
 
         //Consultamos Uusuario
         int idusuario = 1;
-        MCliente cliente= new MCliente();
+        MCliente cliente = new MCliente();
 
         List<RDetalleVenta> lista;
         if (sesion.getAttribute("canasta") == null) {
@@ -243,9 +241,9 @@ public class ServletVenta extends HttpServlet {
         } else {
             lista = (ArrayList<RDetalleVenta>) sesion.getAttribute("canasta");
             double total = (double) sesion.getAttribute("total");
-            
+
             int NumeroVenta = objDetalleVenta.GrabarVentaDetalle(lista, idusuario, total);
-            
+
             String cad = "Factura Nro " + NumeroVenta;
 //            cad += "\n cliente " + cliente.getNombre() + ", " + cliente.getNumeroDocumento();
             cad += "\n Total compra " + total;
