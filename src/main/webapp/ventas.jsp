@@ -49,7 +49,7 @@
 
                                 %>   
                                 <div class="row">
-                                    <h2 class="text-blue">Lista de Alumno</h2>
+                                    <h2 class="text-blue">Lista de Ventas</h2>
 
                                     <table class="table table-hover" id="tablax">
                                         <thead>
