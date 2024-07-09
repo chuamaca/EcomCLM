@@ -68,7 +68,7 @@
                     <ul class="submenu">
 
                         <li class="">
-                            <a href="ventas.jsp">
+                            <a href="ServletVenta?opc=24">
                                 <i class="menu-icon fa fa-caret-right"></i>
                                 Ventas
                             </a>

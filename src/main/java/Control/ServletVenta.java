@@ -67,7 +67,10 @@ public class ServletVenta extends HttpServlet {
         if (op == 23) {
             ConfirmarCompra(request, response);
         }
-        
+
+        if (op == 24) {
+            ListarVentas(request, response);
+        }
 
     }
 
@@ -130,10 +133,10 @@ public class ServletVenta extends HttpServlet {
         Part filePart = request.getPart("imagen");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         String filePath = getServletContext().getRealPath("/imagenes/") + fileName;
-try (InputStream fileContent = filePart.getInputStream()) {
-    Path path = Paths.get(filePath);
-    Files.copy(fileContent, path, StandardCopyOption.REPLACE_EXISTING);
-}
+        try (InputStream fileContent = filePart.getInputStream()) {
+            Path path = Paths.get(filePath);
+            Files.copy(fileContent, path, StandardCopyOption.REPLACE_EXISTING);
+        }
 
         MProducto producto = new MProducto();
         producto.setCodigo(codigo);
@@ -161,10 +164,10 @@ try (InputStream fileContent = filePart.getInputStream()) {
         Part filePart = request.getPart("imagen");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         String filePath = getServletContext().getRealPath("/imagenes/") + fileName;
-try (InputStream fileContent = filePart.getInputStream()) {
-    Path path = Paths.get(filePath);
-    Files.copy(fileContent, path, StandardCopyOption.REPLACE_EXISTING);
-}
+        try (InputStream fileContent = filePart.getInputStream()) {
+            Path path = Paths.get(filePath);
+            Files.copy(fileContent, path, StandardCopyOption.REPLACE_EXISTING);
+        }
 
         MProducto producto = new MProducto();
         producto.setIdProducto(idProducto);
@@ -248,13 +251,13 @@ try (InputStream fileContent = filePart.getInputStream()) {
             String cad = "Factura Nro " + NumeroVenta;
 //            cad += "\n cliente " + cliente.getNombre() + ", " + cliente.getNumeroDocumento();
             cad += "\n Total compra " + total;
-            
+
             sesion.setAttribute("canasta", null);
             sesion.setAttribute("total", null);
             response.sendRedirect("generaQr?texto=" + cad);
 
         }
-       
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -295,5 +298,15 @@ try (InputStream fileContent = filePart.getInputStream()) {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void ListarVentas(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.setAttribute("dato", objDetalleVenta.SelectVentas());
+
+        String pag = "/ventas.jsp";
+        request.getRequestDispatcher(pag).forward(request, response);
+
+    }
 
 }

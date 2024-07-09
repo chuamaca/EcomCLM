@@ -1,6 +1,6 @@
 package DAO;
 
-import Beans.RDetalleVenta;
+import Beans.*;
 import Conexion.MySQLConexion;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -13,6 +13,16 @@ import java.util.List;
 public class DDetalleVenta {
 
     private static String SELECT_DETALLESVENTA = "SELECT * FROM DetallesVenta";
+    
+    private static String SELECT_VENTA = "SELECT v.IdVenta, c.Nombre, sum(d.Cantidad) as CantidadProducto,v.FechaVenta,v.Impuesto,v.Total-v.Impuesto as SubTotal,  v.Total FROM ventas v \n" +
+"inner join clientes c \n" +
+"on v.IdCliente =c.IdCliente \n" +
+"inner join detallesventa d \n" +
+"on v.IdVenta =d.IdVenta \n" +
+"inner join productos p \n" +
+"on d.IdProducto =p.IdProducto\n" +
+"group by v.IdVenta, c.Nombre,v.FechaVenta, v.Total";
+    
 
     public List<RDetalleVenta> Select() {
         Connection conn = null;
@@ -49,6 +59,46 @@ public class DDetalleVenta {
                 detalleVenta.setFechaModifica(rs.getDate("FechaModifica"));
                 detalleVenta.setUsuarioElimina(rs.getInt("UsuarioElimina"));
                 detalleVenta.setFechaElimina(rs.getDate("FechaElimina"));
+
+                listaDetallesVenta.add(detalleVenta);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+
+        }
+
+        return listaDetallesVenta;
+    }
+
+    public List<Venta> SelectVentas() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Venta detalleVenta = null;
+        List<Venta> listaDetallesVenta = new ArrayList<>();
+
+        try {
+            conn = MySQLConexion.getConexion();
+            stmt = conn.prepareStatement(SELECT_VENTA);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+//                int idDetalleVenta = rs.getInt("IdDetalleVenta");
+//                int idVenta = rs.getInt("IdVenta");
+//                int idProducto = rs.getInt("IdProducto");
+//                int cantidad = rs.getInt("Cantidad");
+//                double precio = rs.getDouble("Precio");
+//                double descuento = rs.getDouble("Descuento");
+//IdVenta	Nombre	CantidadProducto	FechaVenta	Impuesto	SubTotal	Total
+                detalleVenta = new Venta();
+                detalleVenta.setIdVenta(rs.getInt("IdVenta"));
+                detalleVenta.setNombre(rs.getString("Nombre"));
+                detalleVenta.setCantidadProducto(rs.getInt("CantidadProducto"));
+                detalleVenta.setFechaVenta(rs.getDate("FechaVenta"));
+                detalleVenta.setImpuesto(rs.getDouble("Impuesto"));
+                detalleVenta.setSubTotal(rs.getDouble("SubTotal"));
+                detalleVenta.setTotal(rs.getDouble("Total"));
 
                 listaDetallesVenta.add(detalleVenta);
             }
