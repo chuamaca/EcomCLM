@@ -67,6 +67,7 @@ public class ServletVenta extends HttpServlet {
         if (op == 23) {
             ConfirmarCompra(request, response);
         }
+        
 
     }
 
@@ -247,11 +248,13 @@ try (InputStream fileContent = filePart.getInputStream()) {
             String cad = "Factura Nro " + NumeroVenta;
 //            cad += "\n cliente " + cliente.getNombre() + ", " + cliente.getNumeroDocumento();
             cad += "\n Total compra " + total;
+            
             sesion.setAttribute("canasta", null);
             sesion.setAttribute("total", null);
             response.sendRedirect("generaQr?texto=" + cad);
 
         }
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

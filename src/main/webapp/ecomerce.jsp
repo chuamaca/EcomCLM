@@ -127,11 +127,11 @@
                                                         <div class="widget-body">
                                                             <div class="widget-main">
                                                                 <div class="form-group">
-                                                                    <label for="form-field-12">usuario</label>
+                                                                    <label for="form-field-12">Nombre</label>
                                                                     <input class="input-sm" type="text" id="usuario" name="usuario" placeholder="">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="form-field-12">Tarjeta</label>
+                                                                    <label for="form-field-12">DNI</label>
                                                                     <input class="input-sm" type="text" id="tarjeta" name="tarjeta" placeholder="">
                                                                 </div>
 
