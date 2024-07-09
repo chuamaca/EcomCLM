@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
+ * @author Administrador
  */
 public class generaQr extends HttpServlet {
 
