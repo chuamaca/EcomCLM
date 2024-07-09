@@ -248,13 +248,13 @@ public class ServletVenta extends HttpServlet {
 
             int NumeroVenta = objDetalleVenta.GrabarVentaDetalle(lista, idusuario, total);
 
-            String cad = "Factura Nro " + NumeroVenta;
+            String cad = "Factura Nro 000000" + NumeroVenta;
 //            cad += "\n cliente " + cliente.getNombre() + ", " + cliente.getNumeroDocumento();
             cad += "\n Total compra " + total;
 
             sesion.setAttribute("canasta", null);
             sesion.setAttribute("total", null);
-            response.sendRedirect("generaQr?texto=" + cad);
+             response.sendRedirect("generaQr?texto="+cad);
 
         }
 

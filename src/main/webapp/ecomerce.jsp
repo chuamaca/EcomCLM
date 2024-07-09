@@ -62,90 +62,102 @@
                                         <div class="col-xs-12">
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-3">
-                                                    <table class="table table-striped table-bordered">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="center">#</th>
-                                                                <th>Producto</th>
-                                                                <th class="hidden-xs">Cantidad</th>
-                                                                <th>Total</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <%
-                                                                int cantidad = 0;
-                                                                HttpSession ses = request.getSession();
-                                                                List<RDetalleVenta> listaCarritoAgregado2 = (List<RDetalleVenta>) ses.getAttribute("canasta");
-                                                                if (listaCarritoAgregado2 != null) {
-                                                                    cantidad = listaCarritoAgregado2.size();
-                                                                }
-                                                                List<RDetalleVenta> listaCarritoAgregado = (List<RDetalleVenta>) ses.getAttribute("canasta");
-                                                            %> 
 
-                                                            <% double sm = 0;
-                                                                int inicial = 0;
-                                                                int contador = 0;
-                                                                if (cantidad > 0) {
-
-                                                                    for (RDetalleVenta obj : listaCarritoAgregado) {
-                                                                        contador++;
-                                                            %>
-                                                            <tr>
-                                                                <td class="center"><%=contador%></td>
-                                                                <td>
-                                                                    <a href="#"><%=obj.getNombre()%></a>
-                                                                </td>
-                                                                <td class="hidden-xs">
-                                                                    <%=obj.getCantidad() + " UN"%>
-                                                                </td>
-
-                                                                <td><%=obj.getPrecioVenta()%></td>
-                                                            </tr>
-                                                            <%
-                                                                        sm += obj.getPrecioVenta();
-                                                                    }
-                                                                    ses.setAttribute("total", sm);
-                                                                }%>
-                                                        </tbody>
-                                                    </table>
 
                                                     <div id="purchase-info" class="widget-box">
                                                         <div class="widget-header">
-                                                            <h4 class="widget-title">Informacion del Usuario</h4>
-                                                            <div class="widget-toolbar">
-                                                                <a href="#" data-action="collapse">
-                                                                    <i class="ace-icon fa fa-chevron-up"></i>
-                                                                </a>
-                                                                <a href="#" data-action="close">
-                                                                    <i class="ace-icon fa fa-times"></i>
-                                                                </a>
-                                                            </div>
+                                                            <h5 class="widget-title">Carrito de Compras</h5>
                                                         </div>
 
-                                                        <!-- <form action="ServletVenta" method="post">-->
-                                                        <!-- <input type="hidden" name="opc" value="23"/>-->
+                                                        <div class="widget-body">
+                                                            <div class="widget-main">
+
+                                                                <table class="table table-striped table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th class="center">#</th>
+                                                                            <th>Producto</th>
+                                                                            <th class="hidden-xs">Cantidad</th>
+                                                                            <th>Total</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <%
+                                                                            int cantidad = 0;
+                                                                            HttpSession ses = request.getSession();
+                                                                            List<RDetalleVenta> listaCarritoAgregado2 = (List<RDetalleVenta>) ses.getAttribute("canasta");
+                                                                            if (listaCarritoAgregado2 != null) {
+                                                                                cantidad = listaCarritoAgregado2.size();
+                                                                            }
+                                                                            List<RDetalleVenta> listaCarritoAgregado = (List<RDetalleVenta>) ses.getAttribute("canasta");
+                                                                        %> 
+
+                                                                        <% double sm = 0;
+                                                                            int inicial = 0;
+                                                                            int contador = 0;
+                                                                            if (cantidad > 0) {
+
+                                                                                for (RDetalleVenta obj : listaCarritoAgregado) {
+                                                                                    contador++;
+                                                                        %>
+                                                                        <tr>
+                                                                            <td class="center"><%=contador%></td>
+                                                                            <td>
+                                                                                <a href="#"><%=obj.getNombre()%></a>
+                                                                            </td>
+                                                                            <td class="hidden-xs">
+                                                                                <%=obj.getCantidad() + " UN"%>
+                                                                            </td>
+
+                                                                            <td><%=obj.getPrecioVenta()%></td>
+                                                                        </tr>
+                                                                        <%
+                                                                                    sm += obj.getPrecioVenta();
+                                                                                }
+                                                                                ses.setAttribute("total", sm);
+                                                                            }%>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="purchase-info" class="widget-box">
+                                                        <div class="widget-header">
+                                                            <h5 class="widget-title">Medio De Pago:</h5>
+                                                        </div>
+
                                                         <div class="widget-body">
                                                             <div class="widget-main">
                                                                 <div class="form-group">
-                                                                    <label for="form-field-12">Nombre</label>
+                                                                    <label for="form-field-12">Usuario</label>
+                                                                </div>
+                                                                <div class="form-group">
                                                                     <input class="input-sm" type="text" id="usuario" name="usuario" placeholder="">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="form-field-12">DNI</label>
+                                                                    <label for="form-field-12">Tarjeta:</label>
+                                                                </div>
+
+                                                                <div class="form-group">
                                                                     <input class="input-sm" type="text" id="tarjeta" name="tarjeta" placeholder="">
                                                                 </div>
 
-                                                                <a href="ServletVenta?opc=23" class="btn btn-info" target="zona">
-                                                                    <i class="ace-icon fa fa-print">Comprar
-                                                                    </i>   
+                                                                <a href="ServletVenta?opc=23" target="zona" class="btn btn-info">
+                                                                    <i class="ace-icon fa fa-print">Comprar</i>   
                                                                 </a>
-                                                                <!--<input type="submit" class="btn btn-info" target="zona" value="Comprar">-->
-
                                                             </div>
                                                         </div>
-                                                        <!--                                                        </form>-->
 
-                                                        <iframe name="zona" height="400" width="400"></iframe>
+                                                        <div class="widget-header">
+                                                            <h5 class="widget-title">Comprobante</h5>
+                                                        </div>
+                                                        <div class="widget-body">
+                                                            <div class="widget-main">
+                                                                <iframe name="zona" height="320" width="320"></iframe>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
 
@@ -174,7 +186,7 @@
                                                                     <h4 class="search-title">
                                                                         <a href="<%= urlProducto%>" class="blue"><%= nombreProducto%></a>
                                                                     </h4>
-                                                                    <p><%= categoriaProducto%></p>
+                                                                    <p><%=categoriaProducto%></p>
 
                                                                     <div class="ace-spinner middle touch-spinner" style="width: 125px;">
                                                                         <div class="input-group">

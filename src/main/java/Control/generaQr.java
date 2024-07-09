@@ -20,49 +20,39 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Cesar
  */
 public class generaQr extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+       
+protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String texto = request.getParameter("texto");
-        try {
-            byte[] qrCodeImage = generateQrCodeForUri(texto);
-
-            response.setContentType("image/png");
-
-            // SECURITY NOTE: This Cache-Control header is not 'nice-to-have'. IT IS A REQUIREMENT.
-            response.addHeader("Cache-Control", "no-store");
-
-            try (OutputStream out = response.getOutputStream()) {
-                out.write(qrCodeImage);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+               String texto=request.getParameter("texto");
+               try{
+		byte[] qrCodeImage = generateQrCodeForUri(texto);
+		
+		response.setContentType("image/png");
+		
+		// SECURITY NOTE: This Cache-Control header is not 'nice-to-have'. IT IS A REQUIREMENT.
+		response.addHeader("Cache-Control", "no-store");
+		
+		try (OutputStream out = response.getOutputStream()) {
+			out.write(qrCodeImage);
+		}
+               }catch(Exception ex){
+                   ex.printStackTrace();
+               }
     }
-
-    private byte[] generateQrCodeForUri(String uri) throws WriterException {
-        try {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            BitMatrix matrix = new QRCodeWriter().encode(uri, BarcodeFormat.QR_CODE, 300, 300);
-            MatrixToImageWriter.writeToStream(matrix, "PNG", stream);
-            return stream.toByteArray();
-        } catch (IOException | WriterException e) {
-            // Given that this operation is entirely in memory, any such exceptions are indicative of bad input.
-            throw new IllegalArgumentException("Invalid URI", e);
-        }
-    }
+   private byte[] generateQrCodeForUri(String uri) throws WriterException {
+		try {
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+			BitMatrix matrix = new QRCodeWriter().encode(uri, BarcodeFormat.QR_CODE, 300, 300);
+			MatrixToImageWriter.writeToStream(matrix, "PNG", stream);
+			return stream.toByteArray();
+		} catch (IOException | WriterException e) {
+			// Given that this operation is entirely in memory, any such exceptions are indicative of bad input.
+			throw new IllegalArgumentException("Invalid URI", e);
+		}
+	}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

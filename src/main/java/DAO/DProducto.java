@@ -30,11 +30,14 @@ public class DProducto {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
+                System.out.println("Categorias:  "+ rs.getString("Categoria"));
+                
                 MProducto p = new MProducto();
                 p.setIdProducto(rs.getInt("IdProducto"));
                 p.setCodigo(rs.getString("Codigo"));
                 p.setNombre(rs.getString("Nombre"));
                 p.setStock(rs.getInt("Stock"));
+                p.setCategoria(rs.getString("Categoria"));
                 p.setImagen(rs.getString("Imagen"));
                 p.setPrecioVenta(rs.getDouble("PrecioVenta"));
                 listaproductos.add(p);

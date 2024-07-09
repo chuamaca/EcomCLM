@@ -4,9 +4,17 @@
         <servlet-name>ServletVenta</servlet-name>
         <servlet-class>Control.ServletVenta</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>generaQr</servlet-name>
+        <servlet-class>Control.generaQr</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletVenta</servlet-name>
         <url-pattern>/ServletVenta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>generaQr</servlet-name>
+        <url-pattern>/generaQr</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
