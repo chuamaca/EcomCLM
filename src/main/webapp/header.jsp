@@ -17,7 +17,7 @@
                 </button>
 
                 <div class="navbar-header pull-left">
-                    <a href="index.jsp" class="navbar-brand">
+                    <a href="ServletVenta?opc=24" class="navbar-brand">
                         <small>
                             <i class="fa fa-android"></i>
                             CelumaxEC

@@ -4,6 +4,8 @@
     <head>
            <!-- CONTENIDO DE PIPILINE CSS Y JS -->
        <%@include file="head.jsp"%>
+       
+       <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     </head>
     <body class="no-skin">
         <%@include file="header.jsp"%>
