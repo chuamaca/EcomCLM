@@ -203,7 +203,7 @@ public class ServletVenta extends HttpServlet {
 
     protected void AgregarCarritoTemp(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Crear una Session
+        // Crear una Session
         HttpSession sesion = request.getSession();
         int IdProducto = Integer.parseInt(request.getParameter("idproducto"));
         int cantidadCompra = Integer.parseInt(request.getParameter("cantidad"));
@@ -221,12 +221,23 @@ public class ServletVenta extends HttpServlet {
         } else {
             lista = (ArrayList<RDetalleVenta>) sesion.getAttribute("canasta");
         }
-        lista.add(compra);
+
+        boolean productoExiste = false;
+        for (RDetalleVenta item : lista) {
+            if (item.getIdProducto() == IdProducto) {
+                item.setCantidad(item.getCantidad() + cantidadCompra);
+                productoExiste = true;
+                break;
+            }
+        }
+
+        if (!productoExiste) {
+            lista.add(compra);
+        }
+
         sesion.setAttribute("canasta", lista);
         String pag = "/ecomerce.jsp";
         response.sendRedirect(request.getContextPath() + pag);
-
-//        request.getRequestDispatcher(pag).forward(request, response);
     }
 
     protected void ConfirmarCompra(HttpServletRequest request, HttpServletResponse response)
@@ -254,7 +265,7 @@ public class ServletVenta extends HttpServlet {
 
             sesion.setAttribute("canasta", null);
             sesion.setAttribute("total", null);
-             response.sendRedirect("generaQr?texto="+cad);
+            response.sendRedirect("generaQr?texto=" + cad);
 
         }
 
