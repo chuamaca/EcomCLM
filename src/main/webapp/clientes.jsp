@@ -44,37 +44,38 @@
                     <div class="page-content">
                         <div class="row">
                             <div class="col-xs-12 col-md-4">
-                                <!-- Formulario para agregar cliente -->
+                                <!-- Formulario para crear y actualizar cliente -->
                                 <div class="side-content">
-                                    <h3>Agregar Cliente</h3>
+                                    <h3 id="form-title">Agregar Cliente</h3>
                                     <form action="ServletVenta" method="post" class="form-horizontal">
-                                        <input type="hidden" name="opc" value="2">
+                                        <input type="hidden" name="opc" id="form-opc" value="2">
+                                        <input type="hidden" name="idCliente" id="idCliente">
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Nombre: </label>
+                                            <label class="col-sm-3 control-label no-padding-right" for="nombre"> Nombre: </label>
                                             <div class="col-sm-9">
                                                 <input type="text" id="nombre" name="nombre" class="col-xs-10 col-sm-5" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Número de Documento: </label>
+                                            <label class="col-sm-3 control-label no-padding-right" for="numDoc"> Número de Documento: </label>
                                             <div class="col-sm-9">
                                                 <input type="text" id="numDoc" name="numDoc" class="col-xs-10 col-sm-5" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Dirección: </label>
+                                            <label class="col-sm-3 control-label no-padding-right" for="direccion"> Dirección: </label>
                                             <div class="col-sm-9">
                                                 <input type="text" id="direccion" name="direccion" class="col-xs-10 col-sm-5" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Teléfono: </label>
+                                            <label class="col-sm-3 control-label no-padding-right" for="telefono"> Teléfono: </label>
                                             <div class="col-sm-9">
                                                 <input type="text" id="telefono" name="telefono" class="col-xs-10 col-sm-5" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Correo: </label>
+                                            <label class="col-sm-3 control-label no-padding-right" for="correo"> Correo: </label>
                                             <div class="col-sm-9">
                                                 <input type="email" id="correo" name="correo" class="col-xs-10 col-sm-5" required>
                                             </div>
@@ -84,40 +85,11 @@
                                         </div>
                                     </form>
                                 </div>
-
-                                <!-- Formulario para actualizar cliente -->
-                                <div class="side-content">
-                                    <h3>Actualizar Cliente</h3>
-                                    <form action="ServletVenta" method="post">
-                                        <input type="hidden" name="opc" value="3">
-                                        <input type="text" name="idCliente" placeholder="ID Cliente" required>
-                                        <input type="text" name="nombre" placeholder="Nombre" required>
-                                        <input type="text" name="numDoc" placeholder="Número de Documento" required>
-                                        <input type="text" name="direccion" placeholder="Dirección" required>
-                                        <input type="text" name="telefono" placeholder="Teléfono" required>
-                                        <input type="email" name="correo" placeholder="Correo" required>
-                                        <button type="submit">Actualizar</button>
-                                    </form>
-                                </div>
-
-                                <!-- Formulario para eliminar cliente -->
-                                <div class="side-content">
-                                    <h3>Eliminar Cliente</h3>
-                                    <form action="ServletVenta" method="post">
-                                        <input type="hidden" name="opc" value="4">
-                                        <input type="text" name="idCliente" placeholder="ID Cliente" required>
-                                        <button type="submit">Eliminar</button>
-                                    </form>
-                                </div>
                             </div>
 
                             <div class="col-xs-12 col-md-8">
                                 <div class="row">
                                     <a href="ServletVenta?opc=1">Cargar Lista de Clientes</a>
-                                </div>
-
-                                <div class="row">
-                                    <a href="ServletVenta?opc=100">Crear Nuevo Cliente</a>
                                 </div>
                                 <div class="row">
                                     <%
@@ -145,7 +117,14 @@
                                                 <td><%= cliente.getDireccion()%></td>
                                                 <td><%= cliente.getTelefono()%></td>
                                                 <td><%= cliente.getCorreo()%></td>
-                                                <td><a href="url">Actualiza</a> <span>  |  </span> <a href="url">Eliminar</a> </td>
+                                                <td>
+                                                    <button onclick="editarCliente(<%= cliente.getIdCliente()%>, '<%= cliente.getNombre()%>', '<%= cliente.getNumeroDocumento()%>', '<%= cliente.getDireccion()%>', '<%= cliente.getTelefono()%>', '<%= cliente.getCorreo()%>')">Actualizar</button>
+                                                    <form action="ServletVenta" method="post" style="display:inline;">
+                                                        <input type="hidden" name="opc" value="4">
+                                                        <input type="hidden" name="idCliente" value="<%= cliente.getIdCliente()%>">
+                                                        <button type="submit">Eliminar</button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                             <% } %>
                                         </tbody>
@@ -194,6 +173,18 @@
         <script src="assets/js/ace-elements.min.js"></script>
         <script src="assets/js/ace.min.js"></script>
         <!-- inline scripts related to this page -->
+
+        <script type="text/javascript">
+            function editarCliente(id, nombre, numDoc, direccion, telefono, correo) {
+                document.getElementById('form-title').innerText = "Actualizar Cliente";
+                document.getElementById('form-opc').value = "3";
+                document.getElementById('idCliente').value = id;
+                document.getElementById('nombre').value = nombre;
+                document.getElementById('numDoc').value = numDoc;
+                document.getElementById('direccion').value = direccion;
+                document.getElementById('telefono').value = telefono;
+                document.getElementById('correo').value = correo;
+            }
+        </script>
     </body>
 </html>
-
