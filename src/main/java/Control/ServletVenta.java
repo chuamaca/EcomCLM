@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -70,6 +71,10 @@ public class ServletVenta extends HttpServlet {
 
         if (op == 24) {
             ListarVentas(request, response);
+        }
+
+        if (op == 25) {
+            QuitarCarritoTemp(request, response);
         }
 
     }
@@ -233,6 +238,32 @@ public class ServletVenta extends HttpServlet {
 
         if (!productoExiste) {
             lista.add(compra);
+        }
+
+        sesion.setAttribute("canasta", lista);
+        String pag = "/ecomerce.jsp";
+        response.sendRedirect(request.getContextPath() + pag);
+    }
+
+    protected void QuitarCarritoTemp(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession sesion = request.getSession();
+        int IdProducto = Integer.parseInt(request.getParameter("idproducto"));
+
+        List<RDetalleVenta> lista;
+        if (sesion.getAttribute("canasta") == null) {
+            lista = new ArrayList<>();
+        } else {
+            lista = (ArrayList<RDetalleVenta>) sesion.getAttribute("canasta");
+        }
+
+        // Buscar y eliminar el producto con el IdProducto
+        for (Iterator<RDetalleVenta> iterator = lista.iterator(); iterator.hasNext();) {
+            RDetalleVenta detalle = iterator.next();
+            if (detalle.getIdProducto() == IdProducto) {
+                iterator.remove();
+                break; // Asumimos que solo hay un producto con ese IdProducto, así que rompemos el bucle
+            }
         }
 
         sesion.setAttribute("canasta", lista);
