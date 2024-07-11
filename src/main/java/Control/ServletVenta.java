@@ -247,10 +247,13 @@ public class ServletVenta extends HttpServlet {
 
     protected void QuitarCarritoTemp(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         HttpSession sesion = request.getSession();
+        
         int IdProducto = Integer.parseInt(request.getParameter("idproducto"));
 
         List<RDetalleVenta> lista;
+        
         if (sesion.getAttribute("canasta") == null) {
             lista = new ArrayList<>();
         } else {

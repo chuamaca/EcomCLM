@@ -128,7 +128,7 @@
                                                                                                         <%=obj.getPrecioVenta()%>
                                                                                                     </td>
                                                                                                     <td>
-                                                                                                        <a href="ServletVenta?op=25&IdProducto=<%=obj.getIdProducto()%>" class="btn btn-danger">
+                                                                                                        <a href="ServletVenta?opc=25&idproducto=<%=obj.getIdProducto()%>" class="btn btn-danger">
                                                                                                             <i class="ace-icon fa fa-trash-o"></i>
                                                                                                         </a>
                                                                                                     </td>
