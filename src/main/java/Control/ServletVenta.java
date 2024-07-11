@@ -247,13 +247,13 @@ public class ServletVenta extends HttpServlet {
 
     protected void QuitarCarritoTemp(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession sesion = request.getSession();
-        
+
         int IdProducto = Integer.parseInt(request.getParameter("idproducto"));
 
         List<RDetalleVenta> lista;
-        
+
         if (sesion.getAttribute("canasta") == null) {
             lista = new ArrayList<>();
         } else {
@@ -281,28 +281,33 @@ public class ServletVenta extends HttpServlet {
         String documento = request.getParameter("tarjeta");
 
         //Consultamos Uusuario
-        int idusuario = 1;
         MCliente cliente = new MCliente();
+        cliente.setNombre(usuario);
+        cliente.setNumeroDocumento(documento);
 
-        List<RDetalleVenta> lista;
-        if (sesion.getAttribute("canasta") == null) {
-            lista = new ArrayList<>();
-        } else {
-            lista = (ArrayList<RDetalleVenta>) sesion.getAttribute("canasta");
-            double total = (double) sesion.getAttribute("total");
+        MCliente resultadoCliente = objC.ComprobarUsuario(cliente);
+        int idusuario = resultadoCliente.getIdCliente();
 
-            int NumeroVenta = objDetalleVenta.GrabarVentaDetalle(lista, idusuario, total);
+        if (idusuario > 0) {
+            List<RDetalleVenta> lista;
+            if (sesion.getAttribute("canasta") == null) {
+                lista = new ArrayList<>();
+            } else {
+                lista = (ArrayList<RDetalleVenta>) sesion.getAttribute("canasta");
+                double total = (double) sesion.getAttribute("total");
 
-            String cad = "Factura Nro 000000" + NumeroVenta;
+                int NumeroVenta = objDetalleVenta.GrabarVentaDetalle(lista, idusuario, total);
+
+                String cad = "Factura Nro 000000" + NumeroVenta;
 //            cad += "\n cliente " + cliente.getNombre() + ", " + cliente.getNumeroDocumento();
-            cad += "\n Total compra " + total;
+                cad += "\n Total compra " + total;
 
-            sesion.setAttribute("canasta", null);
-            sesion.setAttribute("total", null);
-            response.sendRedirect("generaQr?texto=" + cad);
+                sesion.setAttribute("canasta", null);
+                sesion.setAttribute("total", null);
+                response.sendRedirect("generaQr?texto=" + cad);
 
+            }
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

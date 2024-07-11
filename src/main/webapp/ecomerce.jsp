@@ -35,7 +35,12 @@
             <link rel="stylesheet" href="assets/css/ace-skins.min.css" />
             <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
             <script src="assets/js/ace-extra.min.js"></script>
-
+            <script src="
+            https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.all.min.js
+            "></script>
+            <link href="
+            https://cdn.jsdelivr.net/npm/sweetalert2@11.12.2/dist/sweetalert2.min.css
+            " rel="stylesheet">
         </head>
 
         <body class="no-skin">
@@ -156,7 +161,7 @@
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <input class="input-sm" type="text" id="usuario"
-                                                                            name="usuario" placeholder="">
+                                                                               name="usuario" placeholder="" required>
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="form-field-12">Tarjeta:</label>
@@ -164,11 +169,11 @@
 
                                                                     <div class="form-group">
                                                                         <input class="input-sm" type="text" id="tarjeta"
-                                                                            name="tarjeta" placeholder="">
+                                                                               name="tarjeta" placeholder="" required="true">
                                                                     </div>
 
                                                                     <a href="ServletVenta?opc=23" target="zona"
-                                                                        class="btn btn-info">
+                                                                        class="btn btn-info" onclick="return validarFormulario()">
                                                                         <i class="ace-icon fa fa-print">Comprar</i>
                                                                     </a>
                                                                 </div>
@@ -346,24 +351,28 @@
                 function addToCart(idproducto) {
                     var spinnerInput = document.getElementById('spinner3-' + idproducto);
                     var cantidad = spinnerInput.value;
-                    var url = 'ServletVenta?opc=22&idproducto=' + idproducto + '&cantidad=' + cantidad;
-                    window.location.href = url;
+                    if (cantidad>0) {
+                        var url = 'ServletVenta?opc=22&idproducto=' + idproducto + '&cantidad=' + cantidad;
+                        window.location.href = url;
+                   }
+                   
                 }
-            </script>
-            <script>
-                    function valida() {
+                
+                   function validarFormulario() {
+                        var usuario = document.getElementById("usuario").value;
+                        var tarjeta = document.getElementById("tarjeta").value;
 
-                        console.log("valida log");
-//                st =
-//                can = Number(fr.cantidad.value)
-//                if (can > st) {
-                        //                    alert('stock no disponible');
-                        //                    return;
-                        //                }
-                        fr.action = "ServletVenta";
-                    fr.submit();
-            }
+                        if (usuario === "" || tarjeta === "") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Todos los campos son obligatorios',
+                            });
+                            return false; // Impide el envío del formulario
+                        }
+                        return true; // Permite el envío del formulario
 
+                    }
             </script>
 
             <script src="assets/js/jquery.dataTables.min.js"></script>

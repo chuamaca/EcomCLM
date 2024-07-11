@@ -14,6 +14,7 @@ public class MUsuario extends MAuditoria{
     private String Contrasena;
     private String Correo;
     private String Imagen;
+    private String NumeroDocumento;
 
     public Integer getIdUsuario() {
         return IdUsuario;
@@ -54,5 +55,15 @@ public class MUsuario extends MAuditoria{
     public void setImagen(String Imagen) {
         this.Imagen = Imagen;
     }
+
+    public String getNumeroDocumento() {
+        return NumeroDocumento;
+    }
+
+    public void setNumeroDocumento(String NumeroDocumento) {
+        this.NumeroDocumento = NumeroDocumento;
+    }
+    
+    
     
 }
