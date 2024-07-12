@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -26,6 +27,7 @@ public class ServletVenta extends HttpServlet {
     DCliente objC = new DCliente();
     DProducto objP = new DProducto();
     DDetalleVenta objDetalleVenta = new DDetalleVenta();
+    DUsuario objUser = new DUsuario();
     private static final String UPLOAD_DIRECTORY = "imagenes";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -70,6 +72,14 @@ public class ServletVenta extends HttpServlet {
 
         if (op == 24) {
             ListarVentas(request, response);
+        }
+
+        if (op == 25) {
+            QuitarCarritoTemp(request, response);
+        }
+
+        if (op == 26) {
+            SalirSession(request, response);
         }
 
     }
@@ -209,7 +219,7 @@ public class ServletVenta extends HttpServlet {
 
     protected void AgregarCarritoTemp(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Crear una Session
+        // Crear una Session
         HttpSession sesion = request.getSession();
         int IdProducto = Integer.parseInt(request.getParameter("idproducto"));
         int cantidadCompra = Integer.parseInt(request.getParameter("cantidad"));
@@ -227,43 +237,100 @@ public class ServletVenta extends HttpServlet {
         } else {
             lista = (ArrayList<RDetalleVenta>) sesion.getAttribute("canasta");
         }
-        lista.add(compra);
+
+        boolean productoExiste = false;
+        for (RDetalleVenta item : lista) {
+            if (item.getIdProducto() == IdProducto) {
+                item.setCantidad(item.getCantidad() + cantidadCompra);
+                productoExiste = true;
+                break;
+            }
+        }
+
+        if (!productoExiste) {
+            lista.add(compra);
+        }
+
         sesion.setAttribute("canasta", lista);
         String pag = "/ecomerce.jsp";
         response.sendRedirect(request.getContextPath() + pag);
+    }
 
-//        request.getRequestDispatcher(pag).forward(request, response);
+    protected void QuitarCarritoTemp(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession sesion = request.getSession();
+
+        int IdProducto = Integer.parseInt(request.getParameter("idproducto"));
+
+        List<RDetalleVenta> lista;
+
+        if (sesion.getAttribute("canasta") == null) {
+            lista = new ArrayList<>();
+        } else {
+            lista = (ArrayList<RDetalleVenta>) sesion.getAttribute("canasta");
+        }
+
+        // Buscar y eliminar el producto con el IdProducto
+        for (Iterator<RDetalleVenta> iterator = lista.iterator(); iterator.hasNext();) {
+            RDetalleVenta detalle = iterator.next();
+            if (detalle.getIdProducto() == IdProducto) {
+                iterator.remove();
+                break; // Asumimos que solo hay un producto con ese IdProducto, así que rompemos el bucle
+            }
+        }
+        
+        if (lista==null) {
+            sesion.setAttribute("paratotal", 0);
+        }
+        
+
+        sesion.setAttribute("canasta", lista);
+        String pag = "/ecomerce.jsp";
+        response.sendRedirect(request.getContextPath() + pag);
     }
 
     protected void ConfirmarCompra(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
+
         String usuario = request.getParameter("usuario");
         String documento = request.getParameter("tarjeta");
 
-        //Consultamos Uusuario
-        int idusuario = 1;
-        MCliente cliente = new MCliente();
+        MUsuario byuser = null;
 
-        List<RDetalleVenta> lista;
-        if (sesion.getAttribute("canasta") == null) {
-            lista = new ArrayList<>();
-        } else {
-            lista = (ArrayList<RDetalleVenta>) sesion.getAttribute("canasta");
-            double total = (double) sesion.getAttribute("total");
+        byuser = (MUsuario) sesion.getAttribute("user");
 
-            int NumeroVenta = objDetalleVenta.GrabarVentaDetalle(lista, idusuario, total);
+        if (byuser != null) {
+            List<RDetalleVenta> lista;
+            if (sesion.getAttribute("canasta") == null) {
+                lista = new ArrayList<>();
+            } else {
+                lista = (ArrayList<RDetalleVenta>) sesion.getAttribute("canasta");
+                double total = (double) sesion.getAttribute("total");
 
-            String cad = "Factura Nro " + NumeroVenta;
-//            cad += "\n cliente " + cliente.getNombre() + ", " + cliente.getNumeroDocumento();
-            cad += "\n Total compra " + total;
+                int NumeroVenta = objDetalleVenta.GrabarVentaDetalle(lista, byuser.getIdCliente(), total);
 
-            sesion.setAttribute("canasta", null);
-            sesion.setAttribute("total", null);
-            response.sendRedirect("generaQr?texto=" + cad);
+                String cad = "Factura Nro 000000" + NumeroVenta;
+                cad += "\n cliente " + byuser.getNombre() + ", " + byuser.getNumeroDocumento();
+                cad += "\n Total compra " + total;
 
+                sesion.setAttribute("canasta", null);
+                sesion.setAttribute("total", null);
+                response.sendRedirect("generaQr?texto=" + cad);
+            }
         }
+    }
 
+    protected void SalirSession(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("canasta", null);
+        sesion.setAttribute("total", null);
+         sesion.setAttribute("user", null);
+         String pag = "/ecomerce.jsp";
+        response.sendRedirect(request.getContextPath() + pag);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
