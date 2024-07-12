@@ -27,6 +27,7 @@ public class ServletVenta extends HttpServlet {
     DCliente objC = new DCliente();
     DProducto objP = new DProducto();
     DDetalleVenta objDetalleVenta = new DDetalleVenta();
+    DUsuario objUser = new DUsuario();
     private static final String UPLOAD_DIRECTORY = "imagenes";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -75,6 +76,10 @@ public class ServletVenta extends HttpServlet {
 
         if (op == 25) {
             QuitarCarritoTemp(request, response);
+        }
+
+        if (op == 26) {
+            SalirSession(request, response);
         }
 
     }
@@ -268,6 +273,11 @@ public class ServletVenta extends HttpServlet {
                 break; // Asumimos que solo hay un producto con ese IdProducto, así que rompemos el bucle
             }
         }
+        
+        if (lista==null) {
+            sesion.setAttribute("paratotal", 0);
+        }
+        
 
         sesion.setAttribute("canasta", lista);
         String pag = "/ecomerce.jsp";
@@ -277,18 +287,15 @@ public class ServletVenta extends HttpServlet {
     protected void ConfirmarCompra(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
+
         String usuario = request.getParameter("usuario");
         String documento = request.getParameter("tarjeta");
 
-        //Consultamos Uusuario
-        MCliente cliente = new MCliente();
-        cliente.setNombre(usuario);
-        cliente.setNumeroDocumento(documento);
+        MUsuario byuser = null;
 
-        MCliente resultadoCliente = objC.ComprobarUsuario(cliente);
-        int idusuario = resultadoCliente.getIdCliente();
+        byuser = (MUsuario) sesion.getAttribute("user");
 
-        if (idusuario > 0) {
+        if (byuser != null) {
             List<RDetalleVenta> lista;
             if (sesion.getAttribute("canasta") == null) {
                 lista = new ArrayList<>();
@@ -296,18 +303,28 @@ public class ServletVenta extends HttpServlet {
                 lista = (ArrayList<RDetalleVenta>) sesion.getAttribute("canasta");
                 double total = (double) sesion.getAttribute("total");
 
-                int NumeroVenta = objDetalleVenta.GrabarVentaDetalle(lista, idusuario, total);
+                int NumeroVenta = objDetalleVenta.GrabarVentaDetalle(lista, byuser.getIdCliente(), total);
 
                 String cad = "Factura Nro 000000" + NumeroVenta;
-//            cad += "\n cliente " + cliente.getNombre() + ", " + cliente.getNumeroDocumento();
+                cad += "\n cliente " + byuser.getNombre() + ", " + byuser.getNumeroDocumento();
                 cad += "\n Total compra " + total;
 
                 sesion.setAttribute("canasta", null);
                 sesion.setAttribute("total", null);
                 response.sendRedirect("generaQr?texto=" + cad);
-
             }
         }
+    }
+
+    protected void SalirSession(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("canasta", null);
+        sesion.setAttribute("total", null);
+         sesion.setAttribute("user", null);
+         String pag = "/ecomerce.jsp";
+        response.sendRedirect(request.getContextPath() + pag);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

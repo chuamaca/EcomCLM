@@ -4,54 +4,52 @@
  */
 package Control;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-import java.io.ByteArrayOutputStream;
+import Beans.MUsuario;
+import DAO.DUsuario;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Administrador
+ * @author User
  */
-public class generaQr extends HttpServlet {
 
+public class login extends HttpServlet {
+
+    DUsuario serUsuario= new DUsuario();
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String texto = request.getParameter("texto");
-        try {
-            byte[] qrCodeImage = generateQrCodeForUri(texto);
 
-            response.setContentType("image/png");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
-            // SECURITY NOTE: This Cache-Control header is not 'nice-to-have'. IT IS A REQUIREMENT.
-            response.addHeader("Cache-Control", "no-store");
+        MUsuario acceso = new MUsuario();
+        acceso.setNombreUsuario(username);
+        acceso.setContrasena(password);
 
-            try (OutputStream out = response.getOutputStream()) {
-                out.write(qrCodeImage);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+        MUsuario loginOk = serUsuario.LoginEcomerce(acceso);
 
-    private byte[] generateQrCodeForUri(String uri) throws WriterException {
-        try {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            BitMatrix matrix = new QRCodeWriter().encode(uri, BarcodeFormat.QR_CODE, 300, 300);
-            MatrixToImageWriter.writeToStream(matrix, "PNG", stream);
-            return stream.toByteArray();
-        } catch (IOException | WriterException e) {
-            // Given that this operation is entirely in memory, any such exceptions are indicative of bad input.
-            throw new IllegalArgumentException("Invalid URI", e);
+        if (loginOk != null) {
+            request.getSession().setAttribute("user", loginOk);
+            
+            response.sendRedirect("ecomerce.jsp");
+        } else {
+            response.sendRedirect("login.jsp?error=1");
         }
     }
 

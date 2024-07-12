@@ -8,7 +8,8 @@ package Beans;
  *
  * @author Cesar
  */
-public class MUsuario extends MAuditoria{
+public class MUsuario extends MCliente {
+
     private Integer IdUsuario;
     private String NombreUsuario;
     private String Contrasena;
@@ -63,7 +64,17 @@ public class MUsuario extends MAuditoria{
     public void setNumeroDocumento(String NumeroDocumento) {
         this.NumeroDocumento = NumeroDocumento;
     }
-    
-    
-    
+
+    public MUsuario(Integer IdUsuario, String NombreUsuario, String Contrasena, String Correo, String Imagen, String NumeroDocumento) {
+        this.IdUsuario = IdUsuario;
+        this.NombreUsuario = NombreUsuario;
+        this.Contrasena = Contrasena;
+        this.Correo = Correo;
+        this.Imagen = Imagen;
+        this.NumeroDocumento = NumeroDocumento;
+    }
+
+    public MUsuario() {
+    }
+
 }
