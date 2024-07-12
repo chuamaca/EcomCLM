@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-06-2024 a las 22:06:47
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 10-07-2024 a las 19:00:53
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -75,19 +75,27 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerProximoIdDisponible` ()   BE
     SELECT maxId + 1 AS ProximoId;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerProximoIdProducto` ()   BEGIN
-    DECLARE maxId INT;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spObtenerProximoIdProductoDisponible` (OUT `proximo_id` INT)   BEGIN
+    DECLARE id_disponible INT;
+    DECLARE encontrado INT DEFAULT 0;
 
-    -- Obtener el máximo ID actualmente en uso
-    SELECT MAX(idProducto) INTO maxId FROM productos;
+    DECLARE cur CURSOR FOR
+        SELECT IdProducto + 1 AS next_id
+        FROM productos p
+        WHERE NOT EXISTS (SELECT 1 FROM productos WHERE IdProducto = p.IdProducto + 1)
+        ORDER BY IdProducto
+        LIMIT 1;
 
-    -- Si no hay registros en la tabla, comenzamos desde 1
-    IF maxId IS NULL THEN
-        SET maxId = 0;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET encontrado = 1;
+
+    OPEN cur;
+    FETCH cur INTO id_disponible;
+    IF encontrado THEN
+        SELECT IFNULL(MAX(IdProducto), 0) + 1 INTO id_disponible FROM productos;
     END IF;
+    CLOSE cur;
 
-    -- Devolver el próximo ID disponible
-    SELECT maxId + 1 AS ProximoId;
+    SET proximo_id = id_disponible;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spPCarosxAnio` (IN `year` INT)   BEGIN
@@ -184,15 +192,15 @@ CREATE TABLE `clientes` (
 INSERT INTO `clientes` (`IdCliente`, `Nombre`, `NumeroDocumento`, `Direccion`, `Telefono`, `Correo`, `Estado`, `UsuarioCrea`, `FechaCrea`, `UsuarioModifica`, `FechaModifica`, `UsuarioElimina`, `FechaElimina`) VALUES
 (1, 'Martin', '72029016', 'oquendo', '940454121', 'martin@gmail.com', 1, 1, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
 (2, 'Jesus', '12312345', 'marquez', '908123985', 'jesus@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(3, 'Lucia', '45645678', 'rosales', '908765432', 'lucia@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(4, 'Carlos', '78978901', 'suarez', '912345678', 'carlos@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(5, 'Maria', '23423456', 'sanchez', '923456789', 'maria@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(6, 'Jose', '56756789', 'perez', '934567890', 'jose@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(7, 'Ana', '89089012', 'lopez', '945678901', 'ana@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(8, 'Pedro', '34534567', 'garcia', '956789012', 'pedro@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(9, 'Elena', '67867890', 'martinez', '967890123', 'elena@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(10, 'Luis', '90190123', 'hernandez', '978901234', 'luis@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(11, 'Claudia', '45612378', 'torres', '989012345', 'claudia@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(3, 'Lucia', '45645678', 'ventanilla', '908765432', 'lucia@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(4, 'Carlos', '78978901', 'rimac', '912345678', 'carlos@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(5, 'Maria', '23423456', 'la victoria', '923456789', 'maria@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(6, 'Jose', '56756789', 'callao', '934567890', 'jose@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(7, 'Ana', '89089012', 'Lince', '945678901', 'ana@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(8, 'Pedro', '34534567', 'San Isidro', '956789012', 'pedro@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(9, 'Elena', '67867890', 'Av. Peru', '967890123', 'elena@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(10, 'Luis', '90190123', 'Av. Venezuela', '978901234', 'luis@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(11, 'Claudia', '45612378', 'Cono', '989012345', 'claudia@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
 (12, 'Miguelito', '12343214', 'utp', '990123456', 'miguel@gmail.com', 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -270,22 +278,21 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`IdProducto`, `Codigo`, `Nombre`, `Stock`, `Imagen`, `PrecioVenta`, `IdCategoria`, `Estado`, `UsuarioCrea`, `FechaCrea`, `UsuarioModifica`, `FechaModifica`, `UsuarioElimina`, `FechaElimina`) VALUES
-(1, 'CEL001', 'iPhone 13 Pro', 50, NULL, 1199.99, 1, 1, 1, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(2, 'CEL002', 'Samsung Galaxy S21 Ultra', 45, NULL, 1099.99, 1, 1, 2, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(3, 'CEL003', 'Google Pixel 6 Pro', 30, NULL, 899.99, 1, 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(4, 'CEL004', 'OnePlus 9 Pro', 35, NULL, 999.99, 1, 1, 4, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(5, 'CEL005', 'Xiaomi Mi 11 Ultra', 40, NULL, 899.99, 1, 1, 5, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(6, 'CEL006', 'iPhone SE (2022)', 60, NULL, 499.99, 2, 1, 6, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(7, 'CEL007', 'Samsung Galaxy A52', 55, NULL, 399.99, 2, 1, 7, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(8, 'CEL008', 'Google Pixel 5a', 65, NULL, 399.99, 2, 1, 8, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(9, 'CEL009', 'OnePlus Nord 2', 70, NULL, 399.99, 2, 1, 1, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(10, 'CEL010', 'Xiaomi Redmi Note 11 Pro', 75, NULL, 349.99, 2, 1, 2, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(11, 'CEL011', 'Samsung Galaxy Tab S7+', 25, NULL, 849.99, 3, 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(12, 'CEL012', 'iPad Pro 2021', 20, NULL, 999.99, 3, 1, 4, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(13, 'CEL013', 'Samsung Galaxy Watch 4', 15, NULL, 299.99, 4, 1, 5, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(14, 'CEL014', 'Apple Watch Series 7', 10, NULL, 399.99, 4, 1, 6, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
-(15, 'CEL015', 'Sony WH-1000XM4', 5, '15.jpg', 349.99, 5, 1, 7, '2024-05-26 00:00:00', 1, '2024-06-27 00:00:00', NULL, NULL),
-(16, 'cel016', 'brrrr', 12, '1.jpg', 333.00, 2, 1, 1, '2024-06-27 00:00:00', NULL, NULL, NULL, NULL);
+(1, 'CEL001', 'iPhone 13 Pro', 100, '1.jpg', 1199.99, 1, 1, 1, '2024-05-26 00:00:00', 1, '2024-07-10 00:00:00', NULL, NULL),
+(2, 'CEL002', 'Samsung Galaxy S21 Ultra', 45, '2.jpg', 1099.99, 1, 1, 2, '2024-05-26 00:00:00', 1, '2024-07-10 00:00:00', NULL, NULL),
+(3, 'CEL003', 'Google Pixel 6 Pro', 30, '3.jpg', 899.99, 1, 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(4, 'CEL004', 'OnePlus 9 Pro', 35, '4.jpg', 999.99, 1, 1, 4, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(5, 'CEL005', 'Xiaomi Mi 11 Ultra', 40, '5.jpg', 899.99, 1, 1, 5, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(6, 'CEL006', 'iPhone SE (2022)', 60, '6.jpg', 499.99, 2, 1, 6, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(7, 'CEL007', 'Samsung Galaxy A52', 55, '7.jpg', 399.99, 2, 1, 7, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(8, 'CEL008', 'Google Pixel 5a', 65, '8.jpg', 399.99, 2, 1, 8, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(9, 'CEL009', 'OnePlus Nord 2', 70, '9.jpg', 399.99, 2, 1, 1, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(10, 'CEL010', 'Xiaomi Redmi Note 11 Pro', 75, '10.jpg', 349.99, 2, 1, 2, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(11, 'CEL011', 'Samsung Galaxy Tab S7+', 25, '11.jpg', 849.99, 3, 1, 3, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(12, 'CEL012', 'iPad Pro 2021', 20, '12.jpg', 999.99, 3, 1, 4, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(13, 'CEL013', 'Samsung Galaxy Watch 4', 15, '13.jpg', 299.99, 4, 1, 5, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(14, 'CEL014', 'Apple Watch Series 7', 10, '14.jpg', 399.99, 4, 1, 6, '2024-05-26 00:00:00', NULL, NULL, NULL, NULL),
+(15, 'CEL015', 'Sony WH-1000XM4', 5, '15.jpg', 499.99, 5, 1, 7, '2024-05-26 00:00:00', 1, '2024-07-10 00:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -443,7 +450,7 @@ ALTER TABLE `detallesventa`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

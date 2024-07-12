@@ -134,34 +134,40 @@ public class ServletVenta extends HttpServlet {
     }
 
     protected void agregarProducto(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String codigo = request.getParameter("codigo");
-        String nombre = request.getParameter("nombre");
-        int stock = Integer.parseInt(request.getParameter("stock"));
-        double precioVenta = Double.parseDouble(request.getParameter("precioVenta"));
-        int idCategoria = Integer.parseInt(request.getParameter("idCategoria"));
-        Part filePart = request.getPart("imagen");
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String filePath = getServletContext().getRealPath("/imagenes/") + fileName;
-        try (InputStream fileContent = filePart.getInputStream()) {
-            Path path = Paths.get(filePath);
-            Files.copy(fileContent, path, StandardCopyOption.REPLACE_EXISTING);
-        }
+        throws ServletException, IOException {
+    String codigo = request.getParameter("codigo");
+    String nombre = request.getParameter("nombre");
+    int stock = Integer.parseInt(request.getParameter("stock"));
+    double precioVenta = Double.parseDouble(request.getParameter("precioVenta"));
+    int idCategoria = Integer.parseInt(request.getParameter("idCategoria"));
+    Part filePart = request.getPart("imagen");
 
-        MProducto producto = new MProducto();
-        producto.setCodigo(codigo);
-        producto.setNombre(nombre);
-        producto.setStock(stock);
-        producto.setPrecioVenta(precioVenta);
-        producto.setImagen(fileName); // Guardar la ruta de la imagen en la base de datos
-        producto.setIdCategoria(idCategoria);
-        producto.setEstado(1);
-        producto.setUsuarioCrea(1);  // Placeholder, replace with actual user
-        producto.setFechaCrea(new java.util.Date());
-
-        objP.agregarProducto(producto);
-        lisProd(request, response);
+    String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+    String filePath = getServletContext().getRealPath("/imagenes/") + fileName;
+    try (InputStream fileContent = filePart.getInputStream()) {
+        Path path = Paths.get(filePath);
+        Files.copy(fileContent, path, StandardCopyOption.REPLACE_EXISTING);
     }
+
+    MProducto producto = new MProducto();
+    producto.setCodigo(codigo);
+    producto.setNombre(nombre);
+    producto.setStock(stock);
+    producto.setPrecioVenta(precioVenta);
+    producto.setImagen(fileName); // Guardar la ruta de la imagen en la base de datos
+    producto.setIdCategoria(idCategoria);
+    producto.setEstado(1);
+    producto.setUsuarioCrea(1);  // Placeholder, replace with actual user
+    producto.setFechaCrea(new java.util.Date());
+
+    // Aquí se llama al DAO para agregar el producto
+    DProducto objP = new DProducto();
+    objP.agregarProducto(producto);
+
+    // Redirigir a la lista de productos
+    lisProd(request, response);
+}
+
 
     protected void actualizarProducto(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
