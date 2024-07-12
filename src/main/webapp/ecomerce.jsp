@@ -172,7 +172,7 @@
                                                                                name="tarjeta" placeholder="" required="true">
                                                                     </div>
 
-                                                                    <a href="ServletVenta?opc=23" target="zona"
+                                                                    <a href=="ServletVenta?opc=23" target="zona"
                                                                         class="btn btn-info" onclick="return validarFormulario()">
                                                                         <i class="ace-icon fa fa-print">Comprar</i>
                                                                     </a>
@@ -359,6 +359,7 @@
                 }
                 
                    function validarFormulario() {
+                       var estado=true;
                         var usuario = document.getElementById("usuario").value;
                         var tarjeta = document.getElementById("tarjeta").value;
 
@@ -368,10 +369,16 @@
                                 title: 'Error',
                                 text: 'Todos los campos son obligatorios',
                             });
-                            return false; // Impide el envío del formulario
+                            estado= false; // Impide el envío del formulario
+                            
+                            return estado;
                         }
-                        return true; // Permite el envío del formulario
-
+                  
+                        return estado;
+//                        if (estado===true) {
+//                            var url = 'ServletVenta?opc=23&usuario=' + usuario + '&tarjeta=' + tarjeta;
+//                            window.location.href = "ecomerce.jsp";
+//                        }
                     }
             </script>
 

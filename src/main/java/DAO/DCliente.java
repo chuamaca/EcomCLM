@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DCliente {
-    private static String SELECT_COMPROBAR_USUARIO = "select IdCliente, Nombre from cliente where Estado=1 and Nombre=? and NumeroDocumento=?";
+    private static String SELECT_COMPROBAR_USUARIO = "select IdCliente, Nombre from clientes where Estado=1 and Nombre=? and NumeroDocumento=?";
 
      public List<MCliente> lisClientes() {
         List<MCliente> listaClientes = new ArrayList<>();
@@ -128,6 +128,7 @@ public class DCliente {
             stmt.setString(2, client.getNumeroDocumento());
             
             rs = stmt.executeQuery();
+            
             while (rs.next()) {
                 
                 cliente= new MCliente();
