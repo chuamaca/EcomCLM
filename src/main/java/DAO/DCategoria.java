@@ -9,8 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
-
+@Stateless
 public class DCategoria {
     private Connection conn;
 
@@ -18,6 +22,16 @@ public class DCategoria {
         conn = MySQLConexion.getConexion();
     }
 
+    
+    @PersistenceContext(unitName = "tuUnidadPersistencia")
+    private EntityManager entityManager;
+
+    public List<MCategoria> obtenerTodasCategorias() {
+        TypedQuery<MCategoria> query = entityManager.createQuery("SELECT c FROM MCategoria c", MCategoria.class);
+        return query.getResultList();
+    }
+    
+    
     public void insertarCategoria(MCategoria categoria) {
         PreparedStatement pstmt = null;
         try {

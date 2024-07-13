@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Cascada de Categorías y Productos</title>
+</h:head>
+
+<h:body>
+    <h:form id="productosForm">
+        <p:growl id="messages" showDetail="true" />
+
+        <h:panelGrid columns="2">
+            <h:outputLabel for="categoria" value="Selecciona una categoría:" />
+            <p:selectOneMenu id="categoria" value="#{control2.categoriaSeleccionada}">
+                <f:selectItem itemLabel="-- Selecciona --" itemValue="#{null}" noSelectionOption="true" />
+                <f:selectItems value="#{control2.todasCategorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}" />
+                <p:ajax listener="#{control2.cargarProductosPorCategoria}" update="productosTable" />
+            </p:selectOneMenu>
+        </h:panelGrid>
+
+        <br/>
+
+        <h:panelGroup id="productosTable">
+            <p:dataTable var="producto" value="#{control2.productos}" rendered="#{not empty control2.productos}">
+                <p:column headerText="IDProducto">
+                    <h:outputText value="#{producto.idProducto}" />
+                </p:column>
+                <p:column headerText="Código">
+                    <h:outputText value="#{producto.codigo}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{producto.nombre}" />
+                </p:column>
+                <p:column headerText="Stock">
+                    <h:outputText value="#{producto.stock}" />
+                </p:column>
+                <p:column headerText="Precio de Venta">
+                    <h:outputText value="#{producto.precioVenta}" />
+                </p:column>
+                <p:column headerText="Imagen">
+                    <h:graphicImage value="#{producto.imagen}" />
+                </p:column>
+                <p:column headerText="IDCategoría">
+                    <h:outputText value="#{producto.idCategoria}" />
+                </p:column>
+            </p:dataTable>
+            <h:panelGroup rendered="#{empty control2.productos}">
+                <p>No se encontraron productos para la categoría seleccionada.</p>
+            </h:panelGroup>
+        </h:panelGroup>
+
+    </h:form>
+</h:body>
+</html>

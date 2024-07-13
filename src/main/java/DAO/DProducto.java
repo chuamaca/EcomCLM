@@ -5,8 +5,20 @@ import Conexion.MySQLConexion;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 public class DProducto {
+
+    @PersistenceContext(unitName = "NombreUnidadPersistencia") 
+    private EntityManager entityManager;
+
+    public List<MProducto> obtenerProductosPorCategoria(Integer idCategoria) {
+        Query query = entityManager.createQuery("SELECT p FROM MProducto p WHERE p.idCategoria = :idCategoria");
+        query.setParameter("idCategoria", idCategoria);
+        return query.getResultList();
+    }
 
     private static String SELECT_PRODUCTOS = "SELECT p.IdProducto,p.Codigo, p.Nombre,p.Stock, c.Nombre as Categoria,p.Imagen, p.PrecioVenta FROM PRODUCTOS p inner join categorias c \n"
             + "on p.IdCategoria =c.IdCategoria";
@@ -15,7 +27,7 @@ public class DProducto {
             + "on p.IdCategoria =c.IdCategoria WHERE p.IdProducto=?";
 
     private static String INSERT_PRODUCTO = "";
-
+    
     public List<MProducto> Select() {
         Connection conn = null;
         PreparedStatement stmt = null;
