@@ -17,8 +17,8 @@ public class MCategoria implements Serializable {
     private Date FechaElimina;
     private double total;
 
-   
 
+    
     public double getTotal() {
         return total;
     }
@@ -107,4 +107,12 @@ public class MCategoria implements Serializable {
         this.FechaElimina = FechaElimina;
     }
     
+    public MCategoria(Integer IdCategoria, String Nombre) {
+        this.IdCategoria = IdCategoria;
+        this.Nombre = Nombre;
+    }
+
+    public MCategoria() {
+    }
+
 }

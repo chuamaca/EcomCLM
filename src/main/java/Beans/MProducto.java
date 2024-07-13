@@ -114,6 +114,16 @@ public class MProducto extends MAuditoria {
         this.IdCategoria = IdCategoria;
     }
 
+    public MProducto(Integer IdProducto, String Codigo, String Nombre,int Stock, double PrecioVenta, Integer IdCategoria) {
+        this.IdProducto = IdProducto;
+        this.Codigo = Codigo;
+        this.Nombre = Nombre;
+        this.Stock=Stock;
+        this.PrecioVenta = PrecioVenta;
+        this.IdCategoria = IdCategoria;
+    }
+    
+
    
 
     
