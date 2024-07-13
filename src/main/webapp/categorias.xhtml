@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Gestión de Categorías</title>
+    <link rel="stylesheet" type="text/css" href="estilojsf.css" />
+</h:head>
+<h:body>
+    <h:form id="categoriaForm">
+        <p:growl id="messages" showDetail="true" />
+        
+        <p:panel header="Administración de Categorías">
+            <p:messages id="categoriaMessages" showDetail="true" />
+            
+            <h:panelGrid columns="3" cellpadding="5">
+                <h:outputLabel for="nombre" value="Nombre:" />
+                <p:inputText id="nombre" widgetVar="nombreWidget" value="#{control.categoria.nombre}" required="true" />
+                <p:message for="nombre" />
+                
+                <h:outputLabel for="descripcion" value="Descripción:" />
+                <p:inputText id="descripcion" widgetVar="descripcionWidget" value="#{control.categoria.descripcion}" required="true" />
+                <p:message for="descripcion" />
+            </h:panelGrid>
+            
+            <p:commandButton value="Guardar" action="#{control.guardar}" update=":categoriaForm:tablaCategorias :categoriaForm:categoriaMessages" />
+            <p:commandButton value="Cancelar" action="#{control.limpiar}" immediate="true" />
+        </p:panel>
+        
+        <p:dataTable id="tablaCategorias" var="categoria" value="#{control.categorias}" paginator="true" rows="20">
+            <p:column headerText="Nombre">
+                <h:outputText value="#{categoria.nombre}" />
+            </p:column>
+            <p:column headerText="Descripción">
+                <h:outputText value="#{categoria.descripcion}" />
+            </p:column>
+            <p:column headerText="Acciones">
+                <p:commandButton value="Editar" oncomplete="cargarCategoria(categoria)" />
+                <p:commandButton value="Eliminar" action="#{control.eliminar(categoria)}" update=":categoriaForm:tablaCategorias :categoriaForm:messages" />
+            </p:column>
+        </p:dataTable>
+    </h:form>
+    
+    <!-- JavaScript para cargar datos -->
+    <script>
+        function cargarCategoria(categoria) {
+            PF('nombreWidget').setValue(categoria.nombre);
+            PF('descripcionWidget').setValue(categoria.descripcion);
+        }
+    </script>
+    
+    <!-- Incluir los scripts de PrimeFaces al final del body -->
+    <h:outputScript library="primefaces" name="jquery/jquery.js" />
+    <h:outputScript library="primefaces" name="primefaces.js" />
+</h:body>
+</html>

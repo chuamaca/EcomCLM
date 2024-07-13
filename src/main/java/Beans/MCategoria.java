@@ -1,18 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Beans;
 
+import java.io.Serializable;
+import java.util.Date;
 
-
-
-public class MCategoria extends MAuditoria {
-      
+public class MCategoria implements Serializable {
+    
     private Integer IdCategoria;
     private String Nombre;
     private String Descripcion;
+    private int Estado;
+    private int UsuarioCrea;
+    private Date FechaCrea;
+    private int UsuarioModifica;
+    private Date FechaModifica;
+    private int UsuarioElimina;
+    private Date FechaElimina;
     private double total;
+
+   
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
     public Integer getIdCategoria() {
         return IdCategoria;
@@ -38,14 +51,60 @@ public class MCategoria extends MAuditoria {
         this.Descripcion = Descripcion;
     }
 
-    public double getTotal() {
-        return total;
+    public int getEstado() {
+        return Estado;
     }
 
-    public void setTotal(double total) {
-        this.total = total;
+    public void setEstado(int Estado) {
+        this.Estado = Estado;
     }
 
-    
+    public int getUsuarioCrea() {
+        return UsuarioCrea;
+    }
+
+    public void setUsuarioCrea(int UsuarioCrea) {
+        this.UsuarioCrea = UsuarioCrea;
+    }
+
+    public Date getFechaCrea() {
+        return FechaCrea;
+    }
+
+    public void setFechaCrea(Date FechaCrea) {
+        this.FechaCrea = FechaCrea;
+    }
+
+    public int getUsuarioModifica() {
+        return UsuarioModifica;
+    }
+
+    public void setUsuarioModifica(int UsuarioModifica) {
+        this.UsuarioModifica = UsuarioModifica;
+    }
+
+    public Date getFechaModifica() {
+        return FechaModifica;
+    }
+
+    public void setFechaModifica(Date FechaModifica) {
+        this.FechaModifica = FechaModifica;
+    }
+
+    public int getUsuarioElimina() {
+        return UsuarioElimina;
+    }
+
+    public void setUsuarioElimina(int UsuarioElimina) {
+        this.UsuarioElimina = UsuarioElimina;
+    }
+
+    public Date getFechaElimina() {
+        return FechaElimina;
+    }
+
+    public void setFechaElimina(Date FechaElimina) {
+        this.FechaElimina = FechaElimina;
+    }
     
 }

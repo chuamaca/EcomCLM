@@ -1,0 +1,23 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-grid {
+    margin-bottom: 20px;
+}
+
+.data-table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+p:commandButton {
+    margin-right: 10px;
+}
