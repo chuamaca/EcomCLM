@@ -1,4 +1,4 @@
-# Proyecto Final: [BootCamp BC25][Java Basico]
+# Proyecto Final: [Java Basico]
 
 Api para Solicitud de Fondo de Pensiones AFP
 
