@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Listado de Pedidos</title>
+<link th:href="@{/css/adminlte.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <a th:href="@{/new}" class="btn btn-primary">Nuevo</a>
+    <form th:action="@{/listar}" method="get">
+        <div class="form-group">
+            <label>Ingrese Nombre</label>
+            <input type="text" th:value="${palabra}" name="palabra" class="form-control"/>
+            <input type="submit" value="Buscar" class="btn btn-info mt-2">
+        </div>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr class="bg-dark text-white">
+                <th>Codigo</th>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total Pago</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="persona : ${proveedores}">
+                <td th:text="${persona.code}"></td>
+                <td th:text="${persona.nombre}"></td>
+                <td th:text="${persona.cantidad}"></td>
+                <td th:text="${persona.precio}"></td>
+                <td th:text="${persona.total()}"></td>
+                <td>
+                    <a class="btn btn-warning" th:href="@{/editar/}+${persona.code}">Editar</a>
+                    <a class="btn btn-danger" th:href="@{/eliminar/}+${persona.code}">Eliminar</a>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">Totales pagos</td>
+                <td th:text="${totales}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

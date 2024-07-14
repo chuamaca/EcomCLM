@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Proveedores</title>
+    <link th:href="@{/css/adminlte.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <a th:href="@{/detalle/new}" class="btn btn-primary">Nuevo Proveedor</a>
+    <form th:action="@{/detalle/listar}" method="get">
+        <div class="form-group">
+            <label>Ingrese Nombre del Proveedor</label>
+            <input type="text" th:value="${palabra}" name="palabra" class="form-control"/>
+            <input type="submit" value="Buscar" class="btn btn-info mt-2">
+        </div>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr class="bg-dark text-white">
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Contacto</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="proveedor : ${proveedorDetalles}">
+                <td th:text="${proveedor.code}"></td>
+                <td th:text="${proveedor.nombre}"></td>
+                <td th:text="${proveedor.contacto}"></td>
+                <td th:text="${proveedor.email}"></td>
+                <td th:text="${proveedor.telefono}"></td>
+                <td>
+                    <a class="btn btn-warning" th:href="@{/detalle/editar/{id}(id=${proveedor.code})}">Editar</a>
+                    <a class="btn btn-danger" th:href="@{/detalle/eliminar/{id}(id=${proveedor.code})}">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
