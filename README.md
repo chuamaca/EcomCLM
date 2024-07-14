@@ -17,7 +17,7 @@ con las tecnolgocias de JSP Y Serverless
    https://github.com/chuamaca/EcomCLM/tree/master/EcomCLM
 
    
-##### *3. Sprign Api Rest Afp*
+##### *3. Spring Api Rest Afp*
   https://github.com/chuamaca/EcomCLM/tree/master/afps
 
 
